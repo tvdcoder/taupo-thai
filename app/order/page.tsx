@@ -244,7 +244,7 @@ export default function OrderPage() {
         <div className="w-full lg:w-2/3 pr-0 lg:pr-8 mb-8 lg:mb-0">
           <h1 className="text-3xl font-bold mb-6">Order Online</h1>
           <Tabs defaultValue={menuCategories[0].title}>
-            <TabsList className="mb-4 bg-gray-200 flex flex-wrap">
+            <TabsList className="mb-4 bg-gray-200 flex flex-wrap overflow-x-auto sticky top-0 z-10 whitespace-nowrap">
               {menuCategories.map((category) => (
                 <TabsTrigger key={category.title} value={category.title} className="data-[state=active]:bg-white">
                   {category.title}
@@ -252,7 +252,7 @@ export default function OrderPage() {
               ))}
             </TabsList>
             {menuCategories.map((category) => (
-              <TabsContent key={category.title} value={category.title}>
+              <TabsContent key={category.title} value={category.title} className="pt-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {category.items.map((item, index) => (
                     <div key={index} className="border p-4 rounded-lg bg-white shadow-md">
