@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -9,7 +10,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MapPin, Phone, Clock, ShoppingCart } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Image from "next/image"
 
 const menuCategories = [
   { title: "Starters", items: [
@@ -211,37 +211,37 @@ export default function OrderPage() {
 
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col" style={{backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/FInal%20background-1QBTDWqBZCuDtvk4nL5549cN20arkv.jpeg')"}}>
-       <header className="bg-black bg-opacity-75 text-white py-4">
-          <div className="container mx-auto px-4 py-2 flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <Link href="/" className="h-12 w-12">
-                <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/taupo-thai-restaurant-and-bar-3FTzt5KcAOKk9PGwwkBhXRWxVTPnVm.png"
-                  alt="Taupo Thai Restaurant and Bar"
-                  width={48}
-                  height={48}
-                  className="h-full w-full object-contain"
-                />
-              </Link>
-              <nav>
-                <ul className="flex items-center space-x-8 font-medium">
-                  <li><Link href="/" className="hover:text-yellow-400">HOME</Link></li>
-                  <li><Link href="/menu" className="hover:text-yellow-400">MENU</Link></li>
-                  <li><Link href="/about" className="hover:text-yellow-400">ABOUT</Link></li>
-                  <li><Link href="/contact" className="hover:text-yellow-400">CONTACT</Link></li>
-                </ul>
-              </nav>
-            </div>
-            <Link href="/order">
-              <Button className="bg-purple-700 hover:bg-purple-800">
-                ORDER ONLINE
-              </Button>
+      <header className="bg-black bg-opacity-75 text-white py-4">
+        <div className="container mx-auto px-4 py-2 flex flex-col sm:flex-row items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 mb-4 sm:mb-0">
+            <Link href="/" className="h-12 w-12">
+              <Image
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp_Image_2024-11-12_at_22.47.23-removebg-gbJQaR0Q1tJYvE9JxyBKyS18NwHiHQ.png"
+                alt="Taupo Thai Restaurant Logo"
+                width={48}
+                height={48}
+                className="h-full w-full object-contain"
+              />
             </Link>
+            <nav className="mt-4 sm:mt-0">
+              <ul className="flex flex-wrap justify-center sm:justify-start items-center gap-4 sm:gap-8 font-medium">
+                <li><Link href="/" className="hover:text-yellow-400">HOME</Link></li>
+                <li><Link href="/menu" className="hover:text-yellow-400">MENU</Link></li>
+                <li><Link href="/about" className="hover:text-yellow-400">ABOUT</Link></li>
+                <li><Link href="/contact" className="hover:text-yellow-400">CONTACT</Link></li>
+              </ul>
+            </nav>
           </div>
-        </header>
+          <Link href="/order" className="mt-4 sm:mt-0">
+            <Button className="bg-purple-700 hover:bg-purple-800 w-full sm:w-auto">
+              ORDER ONLINE
+            </Button>
+          </Link>
+        </div>
+      </header>
 
-      <main className="flex-grow container mx-auto px-4 py-8 flex flex-col md:flex-row bg-white bg-opacity-90 my-8 rounded-lg">
-        <div className="w-full md:w-2/3 pr-0 md:pr-8 mb-8 md:mb-0">
+      <main className="flex-grow container mx-auto px-4 py-8 flex flex-col lg:flex-row bg-white bg-opacity-90 my-8 rounded-lg">
+        <div className="w-full lg:w-2/3 pr-0 lg:pr-8 mb-8 lg:mb-0">
           <h1 className="text-3xl font-bold mb-6">Order Online</h1>
           <Tabs defaultValue={menuCategories[0].title}>
             <TabsList className="mb-4 bg-gray-200 flex flex-wrap">
@@ -253,7 +253,7 @@ export default function OrderPage() {
             </TabsList>
             {menuCategories.map((category) => (
               <TabsContent key={category.title} value={category.title}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {category.items.map((item, index) => (
                     <div key={index} className="border p-4 rounded-lg bg-white shadow-md">
                       <h3 className="font-bold">{item.name}</h3>
@@ -267,7 +267,7 @@ export default function OrderPage() {
             ))}
           </Tabs>
         </div>
-        <div className="w-full md:w-1/3">
+        <div className="w-full lg:w-1/3">
           <div className="bg-gray-100 p-6 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4">Your Order</h2>
             <div className="max-h-[400px] overflow-y-auto mb-4">
@@ -350,7 +350,7 @@ export default function OrderPage() {
 
       <footer className="bg-black bg-opacity-75 text-white py-4 mt-auto text-sm">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <h3 className="text-lg font-serif text-yellow-400 mb-2">Taupo Thai Restaurant & Bar</h3>
               <p className="flex items-center mb-1">
@@ -374,7 +374,7 @@ export default function OrderPage() {
                 Open 7 Days: 11:30am - Late
               </p>
             </div>
-            <div className="md:text-right">
+            <div className="sm:text-right mt-4 sm:mt-0">
               <h3 className="text-base font-semibold mb-2 text-yellow-400">Quick Links</h3>
               <nav>
                 <ul className="space-y-1">

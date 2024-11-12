@@ -12,8 +12,8 @@ export default function AboutPage() {
             <div className="flex items-center gap-8">
               <Link href="/" className="h-12 w-12">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/taupo-thai-restaurant-and-bar-3FTzt5KcAOKk9PGwwkBhXRWxVTPnVm.png"
-                  alt="Taupo Thai Restaurant and Bar"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp_Image_2024-11-12_at_22.47.23-removebg-gbJQaR0Q1tJYvE9JxyBKyS18NwHiHQ.png"
+                  alt="Taupo Thai Restaurant Logo"
                   width={48}
                   height={48}
                   className="h-full w-full object-contain"
