@@ -1,29 +1,38 @@
 import { Button } from "@/components/ui/button"
 import { MapPin, Phone, Clock, Car, Users } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/FInal%20background-1QBTDWqBZCuDtvk4nL5549cN20arkv.jpeg')"}}>
       <div className="min-h-screen bg-black bg-opacity-50 flex flex-col">
         <header className="bg-black bg-opacity-75 text-white py-4">
-          <div className="container mx-auto px-4 py-2 flex justify-between items-center">
-            <Link href="/" className="font-bold text-xl text-yellow-400 font-serif">
-              TAUPO THAI RESTAURANT
+          <div className="container mx-auto px-4 py-2 flex items-center justify-between">
+            <div className="flex items-center gap-8">
+              <Link href="/" className="h-12 w-12">
+                <Image
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/taupo-thai-restaurant-and-bar-3FTzt5KcAOKk9PGwwkBhXRWxVTPnVm.png"
+                  alt="Taupo Thai Restaurant and Bar"
+                  width={48}
+                  height={48}
+                  className="h-full w-full object-contain"
+                />
+              </Link>
+              <nav>
+                <ul className="flex items-center space-x-8 font-medium">
+                  <li><Link href="/" className="hover:text-yellow-400">HOME</Link></li>
+                  <li><Link href="/menu" className="hover:text-yellow-400">MENU</Link></li>
+                  <li><Link href="/about" className="hover:text-yellow-400">ABOUT</Link></li>
+                  <li><Link href="/contact" className="hover:text-yellow-400">CONTACT</Link></li>
+                </ul>
+              </nav>
+            </div>
+            <Link href="/order">
+              <Button className="bg-purple-700 hover:bg-purple-800">
+                ORDER ONLINE
+              </Button>
             </Link>
-            <nav>
-              <ul className="flex space-x-6 font-medium">
-                <li><Link href="/" className="hover:text-yellow-400">HOME</Link></li>
-                <li><Link href="/menu" className="hover:text-yellow-400">MENU</Link></li>
-                <li><Link href="/about" className="hover:text-yellow-400">ABOUT</Link></li>
-                <li><Link href="/contact" className="hover:text-yellow-400">CONTACT</Link></li>
-                <li>
-                  <Button className="bg-purple-700 hover:bg-purple-800">
-                    ORDER ONLINE
-                  </Button>
-                </li>
-              </ul>
-            </nav>
           </div>
         </header>
 
@@ -34,9 +43,11 @@ export default function Home() {
           <p className="text-xl mb-8 text-center max-w-2xl">
             Experience authentic Thai cuisine in the heart of Taupo
           </p>
-          <Button className="bg-purple-700 hover:bg-purple-800 text-lg px-8">
-            Order Now
-          </Button>
+          <Link href="/order">
+            <Button className="bg-purple-700 hover:bg-purple-800 text-lg px-8">
+              Order Now
+            </Button>
+          </Link>
 
           <div className="mt-24 grid md:grid-cols-2 gap-8 w-full max-w-6xl">
             <section className="bg-black bg-opacity-70 p-8 rounded-lg h-full flex flex-col">
