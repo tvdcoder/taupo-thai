@@ -179,45 +179,45 @@ export default function MenuPage() {
       </main>
 
       <footer className="bg-black bg-opacity-75 text-white py-4 mt-auto text-sm">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <h3 className="text-lg font-serif text-purple-700 mb-2">Taupo Thai Restaurant & Bar</h3>
-              <p className="flex items-center mb-1">
-                <MapPin className="mr-2 h-3 w-3" />
-                100 Roberts Street, Taupo
-              </p>
-              <p className="flex items-center mb-1">
-                <Phone className="mr-2 h-3 w-3" />
-                073765438 (L.Line)
-              </p>
-              <p className="flex items-center mb-1">
-                <Phone className="mr-2 h-3 w-3" />
-                0272344252 (Mob)
-              </p>
-              <p className="flex items-center mb-1">
-                <Phone className="mr-2 h-3 w-3" />
-                0226545258 (Mob)
-              </p>
-              <p className="flex items-center">
-                <Clock className="mr-2 h-3 w-3" />
-                Open 7 Days: 11:30am - Late
-              </p>
-            </div>
-            <div className="md:text-right">
-              <h3 className="text-base font-semibold mb-2 text-purple-700">Quick Links</h3>
-              <nav>
-                <ul className="space-y-1">
-                  <li><Link href="/menu" className="hover:text-yellow-400">Menu</Link></li>
-                  <li><Link href="/about" className="hover:text-yellow-400">About Us</Link></li>
-                  <li><Link href="/contact" className="hover:text-yellow-400">Contact</Link></li>
-                  <li><Link href="/order" className="hover:text-yellow-400">Order Online</Link></li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </footer>
+  <div className="container mx-auto px-4">
+    <div className="grid md:grid-cols-2 gap-4">
+      <div>
+        <h3 className="text-lg font-serif text-yellow-400 mb-2">Taupo Thai Restaurant & Bar</h3>
+        <p className="flex items-center mb-1">
+          <MapPin className="mr-2 h-3 w-3" />
+          100 Roberts Street, Taupo
+        </p>
+        <p className="flex items-center mb-1">
+          <Phone className="mr-2 h-3 w-3" />
+          073765438 (L.Line)
+        </p>
+        <p className="flex items-center mb-1">
+          <Phone className="mr-2 h-3 w-3" />
+          0272344252 (Mob)
+        </p>
+        <p className="flex items-center mb-1">
+          <Phone className="mr-2 h-3 w-3" />
+          0226545258 (Mob)
+        </p>
+        <p className="flex items-center">
+          <Clock className="mr-2 h-3 w-3" />
+          Open 7 Days: 11:30am - Late
+        </p>
+      </div>
+      <div className="md:text-right">
+        <h3 className="text-base font-semibold mb-2 text-yellow-400">Quick Links</h3>
+        <nav>
+          <ul className="space-y-1">
+            <li><Link href="/menu" className="hover:text-yellow-400">Menu</Link></li>
+            <li><Link href="/about" className="hover:text-yellow-400">About Us</Link></li>
+            <li><Link href="/contact" className="hover:text-yellow-400">Contact</Link></li>
+            <li><Link href="/order" className="hover:text-yellow-400">Order Online</Link></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>
     </div>
   )
 }
