@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { MapPin, Phone, Clock, ShoppingCart } from "lucide-react"
+import { MapPin, Phone, Clock, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const menuCategories = [
@@ -138,6 +138,7 @@ export default function OrderPage() {
   const [orderType, setOrderType] = useState('takeaway')
   const [paymentMethod, setPaymentMethod] = useState('store')
   const [pickupTime, setPickupTime] = useState('')
+  const tabsListRef = useRef<HTMLDivElement>(null)
 
   const addToCart = (item: { name: string; price: number }) => {
     setCart(currentCart => {
@@ -209,6 +210,13 @@ export default function OrderPage() {
 
   const pickupTimes = generatePickupTimes()
 
+  const scrollTabs = (direction: 'left' | 'right') => {
+    if (tabsListRef.current) {
+      const scrollAmount = direction === 'left' ? -100 : 100
+      tabsListRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+    }
+  }
+
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col" style={{backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/FInal%20background-1QBTDWqBZCuDtvk4nL5549cN20arkv.jpeg')"}}>
       <header className="bg-black bg-opacity-75 text-white py-4">
@@ -244,13 +252,31 @@ export default function OrderPage() {
         <div className="w-full lg:w-2/3 pr-0 lg:pr-8 mb-8 lg:mb-0">
           <h1 className="text-3xl font-bold mb-6">Order Online</h1>
           <Tabs defaultValue={menuCategories[0].title}>
-            <TabsList className="mb-4 bg-gray-200 flex flex-wrap overflow-x-auto sticky top-0 z-10 whitespace-nowrap">
-              {menuCategories.map((category) => (
-                <TabsTrigger key={category.title} value={category.title} className="data-[state=active]:bg-white">
-                  {category.title}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+            <div className="relative mb-4">
+              <Button
+                className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-50 text-black hover:bg-opacity-75 rounded-full p-1 -ml-4"
+                onClick={() => scrollTabs('left')}
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </Button>
+              <TabsList
+                ref={tabsListRef}
+                className="bg-gray-200 flex overflow-x-auto whitespace-nowrap scrollbar-hide w-full"
+                style={{ scrollBehavior: 'smooth' }}
+              >
+                {menuCategories.map((category) => (
+                  <TabsTrigger key={category.title} value={category.title} className="data-[state=active]:bg-white px-4 py-2">
+                    {category.title}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              <Button
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-50 text-black hover:bg-opacity-75 rounded-full p-1 -mr-4"
+                onClick={() => scrollTabs('right')}
+              >
+                <ChevronRight className="h-6 w-6" />
+              </Button>
+            </div>
             {menuCategories.map((category) => (
               <TabsContent key={category.title} value={category.title} className="pt-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
