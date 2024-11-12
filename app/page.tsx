@@ -85,7 +85,7 @@ export default function Home() {
             <div className="bg-black bg-opacity-70 p-6 rounded-lg">
               <Phone className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
               <h2 className="font-semibold text-yellow-400 mb-2">Contact</h2>
-              <p>07 377 3344</p>
+              <p>073765438</p>
             </div>
             <div className="bg-black bg-opacity-70 p-6 rounded-lg">
               <Clock className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
