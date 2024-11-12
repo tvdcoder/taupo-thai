@@ -16,29 +16,27 @@ export default function ContactPage() {
     event.preventDefault()
     setIsSubmitting(true)
 
-    const formData = new FormData(event.currentTarget)
-    const data = {
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
-      email: formData.get('email'),
-      marketing: formData.get('marketing') === 'on'
-    }
+    const form = event.currentTarget
+    const formData = new FormData(form)
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('https://formspree.io/f/xldenldl', {
         method: 'POST',
+        body: formData,
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+          'Accept': 'application/json'
+        }
       })
 
       if (response.ok) {
         setSubmitted(true)
-        event.currentTarget.reset()
+        form.reset()
+      } else {
+        throw new Error('Form submission failed')
       }
     } catch (error) {
       console.error('Error:', error)
+      alert('There was an error submitting the form. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
@@ -136,7 +134,6 @@ export default function ContactPage() {
                   )}
                 </form>
               </div>
-
             </div>
           </div>
         </main>
