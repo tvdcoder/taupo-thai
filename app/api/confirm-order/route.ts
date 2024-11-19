@@ -4,7 +4,7 @@ import { prisma } from '../../../lib/prisma'
 import { sendSMS } from '../../../lib/sendSMS'
 import { formatNZPhoneNumber } from '../../../lib/utils'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-10-16' })
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-10-28.acacia' })
 const RESTAURANT_PHONE = process.env.RESTAURANT_PHONE_NUMBER || ''
 
 export async function GET(req: Request) {
