@@ -1,12 +1,11 @@
-datasource db {
-  provider = "postgresql" // or "mysql" depending on your database
-  url      = env("DATABASE_URL")
-  relationMode = "prisma"
-}
-
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL_POSTGRES_PRISMA_URL") // Uses connection pooling
+  directUrl = env("POSTGRES_PRISMA_URL_POSTGRES_URL_NON_POOLING") // Uses a direct connection
 }
 
 model Order {
@@ -18,10 +17,9 @@ model Order {
   paymentMethod String
   pickupTime    String
   subtotal      Float
-  invoiceNumber String?
-  status        String      @default("pending")
-  items         OrderItem[]
+  status        String
   createdAt     DateTime    @default(now())
+  items         OrderItem[]
 }
 
 model OrderItem {
