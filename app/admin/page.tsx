@@ -116,8 +116,8 @@ export default function AdminPage() {
 
     if (!isAuthenticated) {
       return (
-        <div className="bg-black bg-opacity-75 p-8 rounded-lg max-w-md mx-auto">
-          <h1 className="text-3xl font-serif text-yellow-400 text-center mb-8">Admin Login</h1>
+        <div className="bg-black bg-opacity-75 p-4 sm:p-8 rounded-lg max-w-md mx-auto">
+          <h1 className="text-2xl sm:text-3xl font-serif text-yellow-400 text-center mb-6 sm:mb-8">Admin Login</h1>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <Label htmlFor="password" className="text-white">Password</Label>
@@ -137,35 +137,35 @@ export default function AdminPage() {
     }
 
     return (
-      <div className="bg-black bg-opacity-75 p-8 rounded-lg">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-serif text-yellow-400">Admin Dashboard</h1>
+      <div className="bg-black bg-opacity-75 p-4 sm:p-8 rounded-lg">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-serif text-yellow-400 mb-4 sm:mb-0">Admin Dashboard</h1>
           <Button onClick={handleLogout} className="bg-red-600 hover:bg-red-700">Logout</Button>
         </div>
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <h2 className="text-xl font-semibold mb-4 text-white">Generate Statement</h2>
-          <div className="flex flex-wrap items-end gap-4">
-            <div>
+          <div className="flex flex-col sm:flex-row items-end gap-4">
+            <div className="w-full sm:w-auto">
               <Label htmlFor="startDate" className="text-white">Start Date</Label>
               <Input
                 id="startDate"
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="bg-transparent border-gray-600 text-white"
+                className="bg-transparent border-gray-600 text-white w-full"
               />
             </div>
-            <div>
+            <div className="w-full sm:w-auto">
               <Label htmlFor="endDate" className="text-white">End Date</Label>
               <Input
                 id="endDate"
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="bg-transparent border-gray-600 text-white"
+                className="bg-transparent border-gray-600 text-white w-full"
               />
             </div>
-            <Button onClick={handleDownloadStatement} className="bg-purple-700 hover:bg-purple-800">Download Statement</Button>
+            <Button onClick={handleDownloadStatement} className="bg-purple-700 hover:bg-purple-800 w-full sm:w-auto">Download Statement</Button>
           </div>
         </div>
         <h2 className="text-xl font-semibold mb-4 text-white">Recent Orders</h2>
