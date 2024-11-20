@@ -2,13 +2,11 @@ import { NextResponse } from 'next/server'
 import { prisma } from '../../../../lib/db'
 import { cookies } from 'next/headers'
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'default_password'
-
 export async function GET(req: Request) {
   const cookieStore = cookies()
-  const authCookie = cookieStore.get('admin_auth')
-  
-  if (!authCookie || authCookie.value !== ADMIN_PASSWORD) {
+  const sessionId = cookieStore.get('admin_session')?.value
+
+  if (!sessionId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

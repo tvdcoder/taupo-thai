@@ -2,20 +2,21 @@ import { NextResponse } from 'next/server'
 import { prisma } from '../../../../lib/db'
 import { cookies } from 'next/headers'
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'default_password'
-
 export async function GET() {
   const cookieStore = cookies()
-  const authCookie = cookieStore.get('admin_auth')
-  
-  if (!authCookie || authCookie.value !== ADMIN_PASSWORD) {
+  const sessionId = cookieStore.get('admin_session')?.value
+
+  if (!sessionId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
     const orders = await prisma.order.findMany({
       orderBy: { createdAt: 'desc' },
-      take: 100 // Limit to last 100 orders for performance
+      take: 100, // Limit to last 100 orders for performance
+      include: {
+        items: true // Include the related items for each order
+      }
     })
     return NextResponse.json(orders)
   } catch (error) {

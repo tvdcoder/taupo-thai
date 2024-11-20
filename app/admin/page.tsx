@@ -16,6 +16,10 @@ interface Order {
   status: string
   subtotal: number
   createdAt: string
+  items: {
+    name: string
+    quantity: number
+  }[]
 }
 
 export default function AdminPage() {
@@ -176,6 +180,7 @@ export default function AdminPage() {
                 <th className="py-2 px-4 border-b border-gray-700">Payment</th>
                 <th className="py-2 px-4 border-b border-gray-700">Status</th>
                 <th className="py-2 px-4 border-b border-gray-700">Total</th>
+                <th className="py-2 px-4 border-b border-gray-700">Items</th>
                 <th className="py-2 px-4 border-b border-gray-700">Date</th>
               </tr>
             </thead>
@@ -189,6 +194,9 @@ export default function AdminPage() {
                   <td className="py-2 px-4 border-b border-gray-700">{order.paymentMethod}</td>
                   <td className="py-2 px-4 border-b border-gray-700">{order.status}</td>
                   <td className="py-2 px-4 border-b border-gray-700">${order.subtotal.toFixed(2)}</td>
+                  <td className="py-2 px-4 border-b border-gray-700">
+                    {order.items.map(item => `${item.name} (${item.quantity})`).join(', ')}
+                  </td>
                   <td className="py-2 px-4 border-b border-gray-700">{new Date(order.createdAt).toLocaleString()}</td>
                 </tr>
               ))}
