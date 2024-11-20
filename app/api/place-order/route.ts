@@ -24,6 +24,21 @@ interface OrderData {
   subtotal: number;
 }
 
+interface RequestBody {
+  items: Array<{
+    name?: string;
+    price?: number;
+    quantity?: number;
+  }>;
+  name?: string;
+  mobile?: string;
+  email?: string;
+  orderType?: string;
+  paymentMethod?: string;
+  pickupTime?: string;
+  subtotal?: number;
+}
+
 async function retrySendSMS(to: string, message: string, retries = 0): Promise<boolean> {
   try {
     await sendSMS(to, message)
@@ -41,11 +56,11 @@ async function retrySendSMS(to: string, message: string, retries = 0): Promise<b
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json()
+    const body: RequestBody = await req.json()
     
     // Validate and convert input data
     const orderData: OrderData = {
-      items: Array.isArray(body.items) ? body.items.map(item => ({
+      items: Array.isArray(body.items) ? body.items.map((item: { name?: string; price?: number; quantity?: number }) => ({
         name: String(item.name || ''),
         price: Number(item.price || 0),
         quantity: Number(item.quantity || 0)
