@@ -87,7 +87,7 @@ export async function POST(req: Request) {
       console.error('Invalid phone number:', orderData.mobile)
       return NextResponse.json({ 
         success: false, 
-        message: 'Please enter a valid phone number' 
+        message: 'Please enter a valid New Zealand mobile number' 
       }, { status: 400 })
     }
 
@@ -185,7 +185,6 @@ export async function POST(req: Request) {
     }, { status: 500 })
   }
 }
-
 
 
 // import { NextResponse } from 'next/server'

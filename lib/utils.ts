@@ -6,9 +6,23 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function isValidNZPhoneNumber(phone: string): boolean {
-  const phoneRegex = /^(02\d{1}|\d{3})[\s-]?\d{3}[\s-]?\d{4}$/
-  return phoneRegex.test(phone)
-}
+    // Remove all non-digit characters
+    const cleanedNumber = phone.replace(/\D/g, '');
+  
+    // Check if the number starts with the country code (64 or +64)
+    const hasCountryCode = cleanedNumber.startsWith('64');
+  
+    // Remove the country code if present
+    const numberWithoutCountryCode = hasCountryCode ? cleanedNumber.slice(2) : cleanedNumber;
+  
+    // Check if the remaining number is 9 digits long (standard for NZ mobile numbers)
+    if (numberWithoutCountryCode.length !== 9) {
+      return false;
+    }
+  
+    // Check if the number starts with 02 (NZ mobile prefix)
+    return numberWithoutCountryCode.startsWith('2');
+  }
 
 export function formatNZPhoneNumber(phone: string): string {
   const digits = phone.replace(/\D/g, '')
