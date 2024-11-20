@@ -41,7 +41,9 @@ async function retrySendSMS(to: string, message: string, retries = 0): Promise<b
 
 export async function POST(req: Request) {
   try {
+    console.log('Received order request')
     const body = await req.json()
+    console.log('Request body:', JSON.stringify(body, null, 2))
     
     // Validate and convert input data
     const orderData: OrderData = {
@@ -59,14 +61,40 @@ export async function POST(req: Request) {
       subtotal: Number(body.subtotal || 0)
     }
 
+    console.log('Processed order data:', JSON.stringify(orderData, null, 2))
+
     // Validate required fields
-    if (orderData.items.length === 0 || !orderData.name || !isValidNZPhoneNumber(orderData.mobile) || !orderData.orderType || !orderData.paymentMethod || !orderData.pickupTime || isNaN(orderData.subtotal)) {
-      console.error('Invalid input data:', JSON.stringify(orderData))
-      return NextResponse.json({ success: false, message: 'Invalid input data' }, { status: 400 })
+    if (!orderData.name || !orderData.mobile || !orderData.orderType || 
+        !orderData.paymentMethod || !orderData.pickupTime || 
+        !Array.isArray(orderData.items) || orderData.items.length === 0 || 
+        isNaN(orderData.subtotal) || orderData.subtotal <= 0) {
+      console.error('Validation failed:', {
+        hasName: !!orderData.name,
+        hasMobile: !!orderData.mobile,
+        hasOrderType: !!orderData.orderType,
+        hasPaymentMethod: !!orderData.paymentMethod,
+        hasPickupTime: !!orderData.pickupTime,
+        itemsLength: orderData.items.length,
+        subtotal: orderData.subtotal
+      })
+      return NextResponse.json({ 
+        success: false, 
+        message: 'Please fill in all required fields' 
+      }, { status: 400 })
     }
 
+    if (!isValidNZPhoneNumber(orderData.mobile)) {
+      console.error('Invalid phone number:', orderData.mobile)
+      return NextResponse.json({ 
+        success: false, 
+        message: 'Please enter a valid phone number' 
+      }, { status: 400 })
+    }
+
+    console.log('Starting database transaction')
     // Use a transaction to ensure atomicity
     const result = await prisma.$transaction(async (tx) => {
+      console.log('Creating order in database')
       // Create a new order in the database
       const order = await tx.order.create({
         data: {
@@ -79,10 +107,15 @@ export async function POST(req: Request) {
           subtotal: orderData.subtotal,
           status: orderData.paymentMethod === 'store' ? 'pending_payment' : 'processing',
           items: {
-            create: orderData.items
+            create: orderData.items.map(item => ({
+              name: item.name,
+              price: item.price,
+              quantity: item.quantity
+            }))
           }
         }
       })
+      console.log('Order created:', order.id)
 
       // Prepare customer notification message
       const customerMessage = orderData.paymentMethod === 'store'
@@ -99,6 +132,7 @@ export async function POST(req: Request) {
         `Total: $${orderData.subtotal.toFixed(2)}\n\n` +
         `Items:\n${orderData.items.map(item => `${item.name} x${item.quantity}`).join('\n')}`
 
+      console.log('Sending SMS notifications')
       // Send SMS notifications with retry mechanism
       const customerSMSSuccess = await retrySendSMS(orderData.mobile, customerMessage)
       const restaurantSMSSuccess = await retrySendSMS(RESTAURANT_PHONE, restaurantMessage)
@@ -111,6 +145,7 @@ export async function POST(req: Request) {
         finalStatus = 'notification_failed'
       }
 
+      console.log('Updating order status to:', finalStatus)
       // Update the order status
       const updatedOrder = await tx.order.update({
         where: { id: order.id },
@@ -133,7 +168,7 @@ export async function POST(req: Request) {
       }, { status: 202 })
     }
 
-    console.log('Order placed successfully:', result.order.id)
+    console.log('Order process completed successfully:', result.order.id)
     return NextResponse.json({ 
       success: true, 
       message: 'Order placed successfully', 
@@ -141,9 +176,18 @@ export async function POST(req: Request) {
     })
   } catch (error) {
     console.error('Error processing order:', error instanceof Error ? error.message : String(error))
-    return NextResponse.json({ success: false, message: 'Failed to process order. Please try again later.' }, { status: 500 })
+    if (error instanceof Error && error.stack) {
+      console.error('Stack trace:', error.stack)
+    }
+    return NextResponse.json({ 
+      success: false, 
+      message: 'Failed to process order. Please try again later.' 
+    }, { status: 500 })
   }
 }
+
+
+
 
 // import { NextResponse } from 'next/server'
 // import { prisma } from '../../../lib/db'
@@ -208,6 +252,7 @@ export async function POST(req: Request) {
 
 //     // Validate required fields
 //     if (orderData.items.length === 0 || !orderData.name || !isValidNZPhoneNumber(orderData.mobile) || !orderData.orderType || !orderData.paymentMethod || !orderData.pickupTime || isNaN(orderData.subtotal)) {
+//       console.error('Invalid input data:', JSON.stringify(orderData))
 //       return NextResponse.json({ success: false, message: 'Invalid input data' }, { status: 400 })
 //     }
 
@@ -223,7 +268,7 @@ export async function POST(req: Request) {
 //           paymentMethod: orderData.paymentMethod,
 //           pickupTime: orderData.pickupTime,
 //           subtotal: orderData.subtotal,
-//           status: 'processing',
+//           status: orderData.paymentMethod === 'store' ? 'pending_payment' : 'processing',
 //           items: {
 //             create: orderData.items
 //           }
@@ -252,7 +297,7 @@ export async function POST(req: Request) {
 //       // Update order status based on SMS sending results
 //       let finalStatus: string
 //       if (customerSMSSuccess && restaurantSMSSuccess) {
-//         finalStatus = orderData.paymentMethod === 'store' ? 'pending' : 'paid'
+//         finalStatus = orderData.paymentMethod === 'store' ? 'pending_payment' : 'paid'
 //       } else {
 //         finalStatus = 'notification_failed'
 //       }
@@ -271,6 +316,7 @@ export async function POST(req: Request) {
 //     })
 
 //     if (result.order.status === 'notification_failed') {
+//       console.warn('Order placed but notifications failed:', result.order.id)
 //       return NextResponse.json({ 
 //         success: true, 
 //         message: 'Order placed but notifications failed. Please contact the restaurant.', 
@@ -278,6 +324,7 @@ export async function POST(req: Request) {
 //       }, { status: 202 })
 //     }
 
+//     console.log('Order placed successfully:', result.order.id)
 //     return NextResponse.json({ 
 //       success: true, 
 //       message: 'Order placed successfully', 
@@ -288,3 +335,4 @@ export async function POST(req: Request) {
 //     return NextResponse.json({ success: false, message: 'Failed to process order. Please try again later.' }, { status: 500 })
 //   }
 // }
+
