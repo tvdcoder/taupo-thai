@@ -517,7 +517,7 @@
 
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -526,8 +526,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { MapPin, Phone, Clock, ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { MapPin, Phone, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
 import { loadStripe } from '@stripe/stripe-js'
 
 const menuCategories = [
@@ -647,10 +647,10 @@ type CartItem = {
   quantity: number
 }
 
-const RESTAURANT_PHONE = "73765438"
+const RESTAURANT_PHONE = "073765438"
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
-export default function OrderPage() {
+export default function Component() {
   const [cart, setCart] = useState<CartItem[]>([])
   const [name, setName] = useState('')
   const [mobile, setMobile] = useState('')
@@ -689,9 +689,13 @@ export default function OrderPage() {
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
+  const isValidNZPhoneNumber = (phone: string) => {
+    return /^(\+?64|0)?2\d{7,9}$/.test(phone.replace(/\s/g, ''))
+  }
+
   const isFormValid = () => {
     return name.trim() !== '' && 
-           /^(2\d{1}|\d{3})[\s-]?\d{3}[\s-]?\d{4}$/.test(mobile) && 
+           isValidNZPhoneNumber(mobile) && 
            pickupTime !== '' && 
            cart.length > 0 &&
            ['takeaway', 'dine-in'].includes(orderType) &&
@@ -925,7 +929,6 @@ export default function OrderPage() {
                 value={mobile} 
                 onChange={(e) => setMobile(e.target.value)} 
                 required 
-                pattern="^(2\d{1}|\d{3})[\s-]?\d{3}[\s-]?\d{4}$"
                 placeholder="e.g. 21 123 4567 or 3 456 7890"
               />
             </div>
@@ -999,15 +1002,15 @@ export default function OrderPage() {
               </p>
               <p className="flex items-center mb-1">
                 <Phone className="mr-2 h-3 w-3" />
-                73765438 (L.Line)
+                073765438 (L.Line)
               </p>
               <p className="flex items-center mb-1">
                 <Phone className="mr-2 h-3 w-3" />
-                272344252 (Mob)
+                0272344252 (Mob)
               </p>
               <p className="flex items-center mb-1">
                 <Phone className="mr-2 h-3 w-3" />
-                226545258 (Mob)
+                0226545258 (Mob)
               </p>
               <p className="flex items-center">
                 <Clock className="mr-2 h-3 w-3" />
