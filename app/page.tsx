@@ -2,6 +2,10 @@ import { Button } from "@/components/ui/button"
 import { MapPin, Phone, Clock, Car, Users } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image";
+import { Inter, Playfair_Display } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'] })
+const playfair = Playfair_Display({ subsets: ['latin'] })
 
 export default function Home() {
   return (

@@ -3,7 +3,8 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { MapPin, Phone, Clock } from "lucide-react"
+import { Textarea } from "@/components/ui/textarea"
+import { MapPin, Phone, Clock } from 'lucide-react'
 import Link from "next/link"
 import { useState } from "react"
 import Image from 'next/image'
@@ -21,7 +22,7 @@ export default function ContactPage() {
     const formData = new FormData(form)
 
     try {
-      const response = await fetch('https://formspree.io/f/your-form-id', {
+      const response = await fetch('https://formspree.io/f/xldenldl', {
         method: 'POST',
         body: formData,
         headers: {
@@ -87,7 +88,12 @@ export default function ContactPage() {
             
             <div className="max-w-md mx-auto">
               <div className="bg-black bg-opacity-75 p-4 sm:p-6 rounded-lg">
-                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6" onInput={checkFormValidity}>
+                <form 
+                  onSubmit={handleSubmit} 
+                  method="POST"
+                  className="space-y-4 sm:space-y-6" 
+                  onInput={checkFormValidity}
+                >
                   <div className="text-xs text-gray-400 mb-4">* INDICATES REQUIRED FIELD</div>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -125,6 +131,18 @@ export default function ContactPage() {
                       type="email"
                       required
                       className="bg-transparent border-gray-600 text-white"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="message" className="text-white">
+                      MESSAGE <span className="text-red-500">*</span>
+                    </Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      required
+                      className="bg-transparent border-gray-600 text-white min-h-[100px]"
                     />
                   </div>
 
