@@ -285,10 +285,16 @@ export default function OrderPage() {
   const generatePickupTimes = () => {
     const times = []
     for (let hour = 11; hour < 21; hour++) {
-      if (hour === 14) {
-        hour = 17 // Skip 2:00 PM to 5:00 PM
-      }
+      // Skip hours between 14:00 and 17:00
+      if (hour >= 14 && hour < 17) continue;
+
       for (let minute = 0; minute < 60; minute += 15) {
+        // Start from 11:30
+        if (hour === 11 && minute < 30) continue;
+        
+        // Stop at 21:00
+        if (hour === 21 && minute > 0) break;
+
         const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
         times.push(time)
       }
