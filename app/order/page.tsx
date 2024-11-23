@@ -14,7 +14,7 @@ import { MapPin, Phone, Clock, ChevronLeft, ChevronRight, Plus, Minus } from 'lu
 import { loadStripe } from '@stripe/stripe-js'
 
 const menuCategories = [
-  { title: "Starters", items: [
+  { title: "Starters", color: "bg-red-300", items: [
     { name: "Thai Curry Puff Chicken (4pc)", price: 13.50, description: "Deep fried chicken and vegetables wrapped in puff pastry" },
     { name: "Pak Tod (6pc)", price: 13.50, description: "Deep fried mixed vegetables with sweet chilli sauce" },
     { name: "Thai Spring Roll (4pc)", price: 12.50, description: "Mixed vegetables, vermicelli rolled in rice pastry" },
@@ -28,7 +28,7 @@ const menuCategories = [
     { name: "Goong Groob", price: 14.50, description: "Deep fried King prawns with sesame seeds" },
     { name: "Prawn Twisters (6pc)", price: 13.50 }
   ]},
-  { title: "Salads & Soups", items: [
+  { title: "Salads & Soups", color: "bg-green-300", items: [
     { name: "Tom yum mushroom soup", price: 11.50, description: "Traditional thai soup cooked with lemongrass, lemon juice, mushroom and chilli" },
     { name: "Tom yum chicken soup", price: 13.50, description: "Traditional thai soup cooked with lemongrass, lemon juice, mushroom and chilli" },
     { name: "Tom yum Prawn or seafood soup (big pot)", price: 29.50, description: "Traditional thai soup cooked with lemongrass, lemon juice, mushroom and chilli" },
@@ -40,7 +40,7 @@ const menuCategories = [
     { name: "Thai seafood salad (Yum talay)", price: 29.90, description: "Hot & sour combination seafood with thai herbs and salad" },
     { name: "Larb (duck or duck salad)", price: 29.90, description: "Spicy BBQ duck with lemon dressing, red onion, mint, chilli and ground roasted rice and garden salad" }
   ]},
-  { title: "Curry", items: [
+  { title: "Curry", color: "bg-yellow-300", items: [
     { name: "Thai red curry (chicken, beef, pork)", price: 27.95, description: "Red curry cooked with coconut milk and bamboo shoots" },
     { name: "Thai red curry (Prawn, seafood, duck, lamb)", price: 30.95, description: "Red curry cooked with coconut milk and bamboo shoots" },
     { name: "Thai green curry (chicken, beef, pork)", price: 27.95, description: "Green curry cooked with coconut milk and bamboo shoots" },
@@ -56,7 +56,7 @@ const menuCategories = [
     { name: "Jungle curry (Chicken, beef, pork)", price: 27.95, description: "Traditional spicy herb curry with vegetables" },
     { name: "Jungle curry (Prawn, seafood, duck, lamb)", price: 30.95, description: "Traditional spicy herb curry with vegetables" }
   ]},
-  { title: "Stir Fry", items: [
+  { title: "Stir Fry", color: "bg-orange-300", items: [
     { name: "Pad Gra Prow - Basil & Chilli (Chicken, beef, pork)", price: 28.95, description: "Chilli, garlic, bamboo, beans and basil leaves" },
     { name: "Pad Gra Prow - Basil & Chilli (Prawn, squid, fish, seafood, duck, lamb)", price: 31.95, description: "Chilli, garlic, bamboo, beans and basil leaves" },
     { name: "Pad Priew Wan - Sweet & Sour (Chicken, beef, pork)", price: 28.95, description: "Thai sweet and sour sauce with tomato, onion and pineapple" },
@@ -80,7 +80,7 @@ const menuCategories = [
     { name: "Choo Chee (Whole snapper)", price: 39.95 },
     { name: "Choo Chee (Prawn / fish fillet)", price: 39.95 }
   ]},
-  { title: "Vegetarian", items: [
+  { title: "Vegetarian", color: "bg-green-400", items: [
     { name: "Gaeng Kiew wang Jay (Green curry)", price: 22.99, description: "Green curry with tofu, vegetables, bean curd and coconut milk" },
     { name: "Gaeng Panang Jay (Panang curry)", price: 22.99, description: "Panang curry with tofu, vegetables and coconut milk" },
     { name: "Pad Med Mam Himmaparn (Cashew nut)", price: 25.50, description: "Stir fry tofu with sweet chilli, vegetables and cashew nuts" },
@@ -93,7 +93,7 @@ const menuCategories = [
     { name: "Tom Kha Jay (soup)", price: 11.50, description: "Spicy tofu, bamboo shoots, mushroom and coconut milk" },
     { name: "Tom Yum Jay (soup)", price: 11.50, description: "Hot & sour mushroom with tofu and lemongrass flavour" }
   ]},
-  { title: "Rice & Noodles", items: [
+  { title: "Rice & Noodles", color: "bg-yellow-400", items: [
     { name: "Kao Pad (Chicken / Beef / Pork)", price: 26.99, description: "Thai fried rice with egg, spring onion, tomato and vegetables" },
     { name: "Kao Pad (Prawn / Lamb / Squid)", price: 28.99, description: "Thai fried rice with egg, spring onion, tomato and vegetables" },
     { name: "Pad Thai (Chicken / Beef / Pork)", price: 26.99, description: "Rice noodle with egg, beansporut, onion, carrot, spring onion and crushed peanut" },
@@ -107,7 +107,7 @@ const menuCategories = [
     { name: "Kao Pad Ka Praw (Chicken / Beef / Pork)", price: 26.99, description: "Rice cooked with chilli, garlic, carrot, bean, zucchini & bamboo" },
     { name: "Kao Pad Ka Praw (Prawn / Lamb / Squid)", price: 28.99, description: "Rice cooked with chilli, garlic, carrot, bean, zucchini & bamboo" }
   ]},
-  { title: "Desserts", items: [
+  { title: "Desserts", color: "bg-pink-300", items: [
     { name: "Ice cream sundae (Choc / Vanilla)", price: 11.50 },
     { name: "Banana Split", price: 11.50 },
     { name: "Deep fried ice cream", price: 13.50 },
@@ -115,7 +115,7 @@ const menuCategories = [
     { name: "Strawberry Cheesecake", price: 11.50 },
     { name: "Roti (Bread)", price: 4.50 }
   ]},
-  { title: "Chef Specials", items: [
+  { title: "Chef Specials", color: "bg-purple-300", items: [
     { name: "Steak", price: 36.95 },
     { name: "Chicken nuggets (6pc) & Chips", price: 16.00 },
     { name: "Crispy pork and veggie stir fry", price: 24.90 },
@@ -132,7 +132,7 @@ type CartItem = {
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
-export default function OrderPage() {
+export default function Component() {
   const [cart, setCart] = useState<CartItem[]>([])
   const [name, setName] = useState('')
   const [mobile, setMobile] = useState('')
@@ -359,7 +359,13 @@ export default function OrderPage() {
                 style={{ scrollBehavior: 'smooth' }}
               >
                 {menuCategories.map((category) => (
-                  <TabsTrigger key={category.title} value={category.title} className="data-[state=active]:bg-white px-4 py-2">
+                  <TabsTrigger 
+                    key={category.title} 
+                    value={category.title} 
+                    className={`px-4 py-2 font-bold text-black transition-all duration-200 ease-in-out ${category.color}
+                      data-[state=active]:shadow-md data-[state=active]:translate-y-[-4px] 
+                      data-[state=active]:border-b-4 data-[state=active]:border-black`}
+                  >
                     {category.title}
                   </TabsTrigger>
                 ))}
