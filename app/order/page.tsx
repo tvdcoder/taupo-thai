@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -142,8 +142,13 @@ export default function Component() {
   const [pickupTime, setPickupTime] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [pickupTimes, setPickupTimes] = useState<string[]>([])
   const tabsListRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
+
+  useEffect(() => {
+    setPickupTimes(generatePickupTimes())
+  }, [])
 
   const addToCart = (item: { name: string; price: number }) => {
     setCart(currentCart => {
@@ -284,6 +289,17 @@ export default function Component() {
 
   const generatePickupTimes = () => {
     const times = []
+    const now = new Date()
+    const nzTime = new Date(now.toLocaleString("en-US", {timeZone: "Pacific/Auckland"}))
+    
+    // Check if it's Sunday (0 is Sunday in JavaScript's getDay())
+    if (nzTime.getDay() === 0) {
+      return ["Closed on Sundays"]
+    }
+
+    const currentHour = nzTime.getHours()
+    const currentMinute = nzTime.getMinutes()
+
     for (let hour = 11; hour < 21; hour++) {
       // Skip hours between 14:00 and 17:00
       if (hour >= 14 && hour < 17) continue;
@@ -295,14 +311,29 @@ export default function Component() {
         // Stop at 21:00
         if (hour === 21 && minute > 0) break;
 
-        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
-        times.push(time)
+        // Only include times that are at least 30 minutes in the future
+        if (hour > currentHour || (hour === currentHour && minute > currentMinute + 30)) {
+          const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
+          times.push(time)
+        }
       }
     }
+
+    // If no times are available today, show times for tomorrow
+    if (times.length === 0) {
+      for (let hour = 11; hour < 21; hour++) {
+        if (hour >= 14 && hour < 17) continue;
+        for (let minute = 0; minute < 60; minute += 15) {
+          if (hour === 11 && minute < 30) continue;
+          if (hour === 21 && minute > 0) break;
+          const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
+          times.push(time)
+        }
+      }
+    }
+
     return times
   }
-
-  const pickupTimes = generatePickupTimes()
 
   const scrollTabs = (direction: 'left' | 'right') => {
     if (tabsListRef.current) {
@@ -503,12 +534,14 @@ export default function Component() {
             )}
             <Button 
               type="submit" 
-              disabled={!isFormValid() || isLoading} 
+              disabled={!isFormValid() || isLoading || pickupTimes[0] === "Closed on Sundays"} 
               className="w-full bg-purple-600 hover:bg-purple-700 text-white"
             >
               {isLoading 
                 ? 'Processing...' 
-                : (paymentMethod === 'credit-card' ? 'Proceed to Payment' : 'Place Order')
+                : pickupTimes[0] === "Closed on Sundays"
+                  ? 'Closed on Sundays'
+                  : (paymentMethod === 'credit-card' ? 'Proceed to Payment' : 'Place Order')
               }
             </Button>
           </form>

@@ -8,6 +8,18 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'taupothai.co.nz',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.taupothai.co.nz',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 }
