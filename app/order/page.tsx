@@ -182,7 +182,18 @@ export default function Component() {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   const isValidNZPhoneNumber = (phone: string) => {
-    return /^(\+?64|0)?2\d{7,9}$/.test(phone.replace(/\s/g, ''))
+    const cleanedPhone = phone.replace(/\s/g, '')
+    return /^(0|64|\+64)?[278]\d{7,9}$/.test(cleanedPhone)
+  }
+
+  const formatPhoneNumberForSMS = (phone: string) => {
+    const cleanedPhone = phone.replace(/\s/g, '')
+    if (cleanedPhone.startsWith('0')) {
+      return '64' + cleanedPhone.slice(1)
+    } else if (cleanedPhone.startsWith('64') || cleanedPhone.startsWith('+64')) {
+      return cleanedPhone.replace('+', '')
+    }
+    return cleanedPhone
   }
 
   const isFormValid = () => {
@@ -195,6 +206,7 @@ export default function Component() {
   }
 
   const placeOrder = async (e: React.FormEvent) => {
+    const formattedMobile = formatPhoneNumberForSMS(mobile)
     e.preventDefault()
     setError(null)
     setIsLoading(true)
@@ -257,7 +269,7 @@ export default function Component() {
           body: JSON.stringify({
             items: cart,
             name,
-            mobile,
+            mobile: formattedMobile,
             email,
             orderType,
             paymentMethod,
