@@ -182,7 +182,18 @@ export default function Component() {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   const isValidNZPhoneNumber = (phone: string) => {
-    return /^(\+?64|0)?2\d{7,9}$/.test(phone.replace(/\s/g, ''))
+    const cleanedNumber = phone.replace(/\D/g, '');
+    return /^(0|64)?2\d{7,9}$/.test(cleanedNumber);
+  }
+
+  const formatPhoneNumber = (phone: string) => {
+    const cleanedNumber = phone.replace(/\D/g, '');
+    if (cleanedNumber.startsWith('0')) {
+      return '64' + cleanedNumber.slice(1);
+    } else if (!cleanedNumber.startsWith('64')) {
+      return '64' + cleanedNumber;
+    }
+    return cleanedNumber;
   }
 
   const isFormValid = () => {
@@ -214,6 +225,17 @@ export default function Component() {
     }
 
     try {
+      const orderData = {
+        items: cart,
+        name,
+        mobile: formatPhoneNumber(mobile),
+        email,
+        orderType,
+        paymentMethod,
+        pickupTime,
+        subtotal,
+      };
+
       if (paymentMethod === 'credit-card') {
         const stripe = await stripePromise
         if (!stripe) {
@@ -225,14 +247,7 @@ export default function Component() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            items: cart,
-            name,
-            mobile,
-            email,
-            orderType,
-            pickupTime,
-          }),
+          body: JSON.stringify(orderData),
         })
 
         const data = await response.json()
@@ -254,34 +269,24 @@ export default function Component() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            items: cart,
-            name,
-            mobile,
-            email,
-            orderType,
-            paymentMethod,
-            pickupTime,
-            subtotal,
-          }),
+          body: JSON.stringify(orderData),
         })
 
-        if (!response.ok) {
-          const errorData = await response.json()
-          throw new Error(errorData.error || 'Failed to place order')
-        }
-
         const result = await response.json()
+
+        if (!response.ok) {
+          throw new Error(result.message || 'Failed to place order')
+        }
 
         if (result.success) {
           router.push(`/order-success?order_id=${result.orderId}`)
         } else {
-          throw new Error(result.message || 'Failed to place order')
+          setError(`${result.message} Your order ID is ${result.orderId}. Please contact the restaurant for confirmation.`)
         }
       }
     } catch (error: any) {
       console.error('Error processing order:', error)
-      setError(`There was an error processing your order: ${error.message}. Please try again.`)
+      setError(`There was an error processing your order: ${error.message}. Please try again or contact the restaurant.`)
     } finally {
       setIsLoading(false)
     }
@@ -484,7 +489,7 @@ export default function Component() {
                 value={mobile} 
                 onChange={(e) => setMobile(e.target.value)} 
                 required 
-                placeholder="e.g. 21 123 4567 or 3 456 7890"
+                placeholder="e.g. 021 123 4567 or 03 456 7890"
               />
             </div>
             <div>
