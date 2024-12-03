@@ -115,9 +115,7 @@ export async function POST(req: Request) {
             create: orderData.items.map(item => ({
               name: item.name,
               price: item.price,
-              quantity: item.quantity,
-              // Only include 'option' if it exists
-              ...(item.option && { option: item.option })
+              quantity: item.quantity
             }))
           }
         }
