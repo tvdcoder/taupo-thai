@@ -41,40 +41,40 @@ const menuCategories = [
     { name: "Larb (duck or duck salad)", price: 29.90, description: "Spicy BBQ duck with lemon dressing, red onion, mint, chilli and ground roasted rice and garden salad" }
   ]},
   { title: "Curry", color: "bg-yellow-300", items: [
-    { name: "Thai red curry (chicken, beef, pork)", price: 27.95, description: "Red curry cooked with coconut milk and bamboo shoots" },
-    { name: "Thai red curry (Prawn, seafood, duck, lamb)", price: 30.95, description: "Red curry cooked with coconut milk and bamboo shoots" },
-    { name: "Thai green curry (chicken, beef, pork)", price: 27.95, description: "Green curry cooked with coconut milk and bamboo shoots" },
-    { name: "Thai green curry (Prawn, seafood, duck, lamb)", price: 30.95, description: "Green curry cooked with coconut milk and bamboo shoots" },
-    { name: "Masaman curry (chicken, beef, pork)", price: 27.95, description: "Chunky meat curry cooked with coconut milk and potato" },
-    { name: "Masaman curry (Prawn, seafood, duck, lamb)", price: 30.95, description: "Chunky meat curry cooked with coconut milk and potato" },
-    { name: "Yellow curry (chicken, beef, pork)", price: 27.95, description: "Yellow Curry with potato, onion and thai spices" },
-    { name: "Yellow curry (Prawn, seafood, duck, lamb)", price: 30.95, description: "Yellow Curry with potato, onion and thai spices" },
-    { name: "Panang curry (chicken, beef, pork)", price: 27.95, description: "Cooked with pumpkin, green beans and crushed peanuts" },
-    { name: "Panang curry (Prawn, seafood, duck, lamb)", price: 30.95, description: "Cooked with pumpkin, green beans and crushed peanuts" },
-    { name: "Choo Chee curry (chicken, beef, pork)", price: 27.95, description: "Red curry cooked with coconut milk, Lime leaves and capsicums" },
-    { name: "Choo Chee curry (Prawn, seafood, duck, lamb)", price: 30.95, description: "Red curry cooked with coconut milk, Lime leaves and capsicums" },
-    { name: "Jungle curry (Chicken, beef, pork)", price: 27.95, description: "Traditional spicy herb curry with vegetables" },
-    { name: "Jungle curry (Prawn, seafood, duck, lamb)", price: 30.95, description: "Traditional spicy herb curry with vegetables" }
+    { name: "Thai red curry", price: 27.95, description: "Red curry cooked with coconut milk and bamboo shoots", options: ["chicken", "beef", "pork"] },
+    { name: "Thai red curry", price: 30.95, description: "Red curry cooked with coconut milk and bamboo shoots", options: ["prawn", "seafood", "duck", "lamb"] },
+    { name: "Thai green curry", price: 27.95, description: "Green curry cooked with coconut milk and bamboo shoots", options: ["chicken", "beef", "pork"] },
+    { name: "Thai green curry", price: 30.95, description: "Green curry cooked with coconut milk and bamboo shoots", options: ["prawn", "seafood", "duck", "lamb"] },
+    { name: "Masaman curry", price: 27.95, description: "Chunky meat curry cooked with coconut milk and potato", options: ["chicken", "beef", "pork"] },
+    { name: "Masaman curry", price: 30.95, description: "Chunky meat curry cooked with coconut milk and potato", options: ["prawn", "seafood", "duck", "lamb"] },
+    { name: "Yellow curry", price: 27.95, description: "Yellow Curry with potato, onion and thai spices", options: ["chicken", "beef", "pork"] },
+    { name: "Yellow curry", price: 30.95, description: "Yellow Curry with potato, onion and thai spices", options: ["prawn", "seafood", "duck", "lamb"] },
+    { name: "Panang curry", price: 27.95, description: "Cooked with pumpkin, green beans and crushed peanuts", options: ["chicken", "beef", "pork"] },
+    { name: "Panang curry", price: 30.95, description: "Cooked with pumpkin, green beans and crushed peanuts", options: ["prawn", "seafood", "duck", "lamb"] },
+    { name: "Choo Chee curry", price: 27.95, description: "Red curry cooked with coconut milk, Lime leaves and capsicums", options: ["chicken", "beef", "pork"] },
+    { name: "Choo Chee curry", price: 30.95, description: "Red curry cooked with coconut milk, Lime leaves and capsicums", options: ["prawn", "seafood", "duck", "lamb"] },
+    { name: "Jungle curry", price: 27.95, description: "Traditional spicy herb curry with vegetables", options: ["chicken", "beef", "pork"] },
+    { name: "Jungle curry", price: 30.95, description: "Traditional spicy herb curry with vegetables", options: ["prawn", "seafood", "duck", "lamb"] }
   ]},
   { title: "Stir Fry", color: "bg-orange-300", items: [
-    { name: "Pad Gra Prow - Basil & Chilli (Chicken, beef, pork)", price: 28.95, description: "Chilli, garlic, bamboo, beans and basil leaves" },
-    { name: "Pad Gra Prow - Basil & Chilli (Prawn, squid, fish, seafood, duck, lamb)", price: 31.95, description: "Chilli, garlic, bamboo, beans and basil leaves" },
-    { name: "Pad Priew Wan - Sweet & Sour (Chicken, beef, pork)", price: 28.95, description: "Thai sweet and sour sauce with tomato, onion and pineapple" },
-    { name: "Pad Priew Wan - Sweet & Sour (Prawn, squid, fish, seafood, duck, lamb)", price: 31.95, description: "Thai sweet and sour sauce with tomato, onion and pineapple" },
-    { name: "Pad khing - Ginger (Chicken, beef, pork)", price: 28.95, description: "Stir fried vegetables, mushroom with ginger and oyster sauce" },
-    { name: "Pad khing - Ginger (Prawn, squid, fish, seafood, duck, lamb)", price: 31.95, description: "Stir fried vegetables, mushroom with ginger and oyster sauce" },
-    { name: "Pad Graw Tiam - Garlic & Pepper (Chicken, beef, pork)", price: 28.95, description: "Fresh garlic, pepper sauce and market vegetables" },
-    { name: "Pad Graw Tiam - Garlic & Pepper (Prawn, squid, fish, seafood, duck, lamb)", price: 31.95, description: "Fresh garlic, pepper sauce and market vegetables" },
-    { name: "Pad namman hoi - Oyster sauce (Chicken, beef, pork)", price: 28.95, description: "Mixed vegetable, mushroom in oyster sauce" },
-    { name: "Pad namman hoi - Oyster sauce (Prawn, squid, fish, seafood, duck, lamb)", price: 31.95, description: "Mixed vegetable, mushroom in oyster sauce" },
-    { name: "Pad Prik Gaeng (Chicken, beef, pork)", price: 28.95, description: "Stir fried beans, chilli paste, coconut cream and lime leaves" },
-    { name: "Pad Prik Gaeng (Prawn, squid, fish, seafood, duck, lamb)", price: 31.95, description: "Stir fried beans, chilli paste, coconut cream and lime leaves" },
-    { name: "Pad Med Himmaparn - Cashew nut (chicken, beef, pork)", price: 28.95, description: "Thai chilli paste with cashew nut, market vegetables and thai sauce" },
-    { name: "Pad Med Himmaparn -Cashew nut (Prawn, squid, fish, seafood, duck, lamb)", price: 31.95, description: "Thai chilli paste with cashew nut, market vegetables and thai sauce" },
-    { name: "Pra - ram - Peanut (Chicken, beef, pork)", price: 28.95, description: "Market vegetables in oyster sauce topped with peanut sauce" },
-    { name: "Pineapple Stir fry (Chicken, beef, pork)", price: 28.95, description: "Cooked with choice of meat and pineapple and vegetables" },
-    { name: "Pineapple Stir fry (Prawn, squid, fish, seafood, duck, lamb)", price: 31.95, description: "Cooked with choice of meat and pineapple and vegetables" },
-    { name: "Tamarind Stir fry (Prawn & duck)", price: 31.95, description: "Cooked with choice of meat, steamed vegetables, tamarind juice and oyster sauce" },
+    { name: "Pad Gra Prow - Basil & Chilli", price: 28.95, description: "Chilli, garlic, bamboo, beans and basil leaves", options: ["chicken", "beef", "pork"] },
+    { name: "Pad Gra Prow - Basil & Chilli", price: 31.95, description: "Chilli, garlic, bamboo, beans and basil leaves", options: ["prawn", "squid", "fish", "seafood", "duck", "lamb"] },
+    { name: "Pad Priew Wan - Sweet & Sour", price: 28.95, description: "Thai sweet and sour sauce with tomato, onion and pineapple", options: ["chicken", "beef", "pork"] },
+    { name: "Pad Priew Wan - Sweet & Sour", price: 31.95, description: "Thai sweet and sour sauce with tomato, onion and pineapple", options: ["prawn", "squid", "fish", "seafood", "duck", "lamb"] },
+    { name: "Pad khing - Ginger", price: 28.95, description: "Stir fried vegetables, mushroom with ginger and oyster sauce", options: ["chicken", "beef", "pork"] },
+    { name: "Pad khing - Ginger", price: 31.95, description: "Stir fried vegetables, mushroom with ginger and oyster sauce", options: ["prawn", "squid", "fish", "seafood", "duck", "lamb"] },
+    { name: "Pad Graw Tiam - Garlic & Pepper", price: 28.95, description: "Fresh garlic, pepper sauce and market vegetables", options: ["chicken", "beef", "pork"] },
+    { name: "Pad Graw Tiam - Garlic & Pepper", price: 31.95, description: "Fresh garlic, pepper sauce and market vegetables", options: ["prawn", "squid", "fish", "seafood", "duck", "lamb"] },
+    { name: "Pad namman hoi - Oyster sauce", price: 28.95, description: "Mixed vegetable, mushroom in oyster sauce", options: ["chicken", "beef", "pork"] },
+    { name: "Pad namman hoi - Oyster sauce", price: 31.95, description: "Mixed vegetable, mushroom in oyster sauce", options: ["prawn", "squid", "fish", "seafood", "duck", "lamb"] },
+    { name: "Pad Prik Gaeng", price: 28.95, description: "Stir fried beans, chilli paste, coconut cream and lime leaves", options: ["chicken", "beef", "pork"] },
+    { name: "Pad Prik Gaeng", price: 31.95, description: "Stir fried beans, chilli paste, coconut cream and lime leaves", options: ["prawn", "squid", "fish", "seafood", "duck", "lamb"] },
+    { name: "Pad Med Himmaparn - Cashew nut", price: 28.95, description: "Thai chilli paste with cashew nut, market vegetables and thai sauce", options: ["chicken", "beef", "pork"] },
+    { name: "Pad Med Himmaparn -Cashew nut", price: 31.95, description: "Thai chilli paste with cashew nut, market vegetables and thai sauce", options: ["prawn", "squid", "fish", "seafood", "duck", "lamb"] },
+    { name: "Pra - ram - Peanut", price: 28.95, description: "Market vegetables in oyster sauce topped with peanut sauce", options: ["chicken", "beef", "pork"] },
+    { name: "Pineapple Stir fry", price: 28.95, description: "Cooked with choice of meat and pineapple and vegetables", options: ["chicken", "beef", "pork"] },
+    { name: "Pineapple Stir fry", price: 31.95, description: "Cooked with choice of meat and pineapple and vegetables", options: ["prawn", "squid", "fish", "seafood", "duck", "lamb"] },
+    { name: "Tamarind Stir fry", price: 31.95, description: "Cooked with choice of meat, steamed vegetables, tamarind juice and oyster sauce", options: ["prawn", "duck"] },
     { name: "Whole Snapper (Garlic & Pepper sauce)", price: 39.95, description: "Deep fried whole snapper with garlic & pepper sauce" },
     { name: "Whole Snapper (Sweet & Sour sauce)", price: 39.95, description: "Deep fried whole snapper with sweet & sour sauce" },
     { name: "Choo Chee (Whole snapper)", price: 39.95 },
@@ -94,18 +94,18 @@ const menuCategories = [
     { name: "Tom Yum Jay (soup)", price: 11.50, description: "Hot & sour mushroom with tofu and lemongrass flavour" }
   ]},
   { title: "Rice & Noodles", color: "bg-yellow-400", items: [
-    { name: "Kao Pad (Chicken / Beef / Pork)", price: 26.99, description: "Thai fried rice with egg, spring onion, tomato and vegetables" },
-    { name: "Kao Pad (Prawn / Lamb / Squid)", price: 28.99, description: "Thai fried rice with egg, spring onion, tomato and vegetables" },
-    { name: "Pad Thai (Chicken / Beef / Pork)", price: 26.99, description: "Rice noodle with egg, beansporut, onion, carrot, spring onion and crushed peanut" },
-    { name: "Pad Thai (Prawn / Lamb / Squid)", price: 28.99, description: "Rice noodle with egg, beansporut, onion, carrot, spring onion and crushed peanut" },
-    { name: "Drunken Noodle (Chicken / Beef / Pork)", price: 26.99, description: "Fried noodle with basil leaves, chilli, garlic, carrot & bamboo" },
-    { name: "Drunken Noodle (Prawn / Lamb / Squid)", price: 28.99, description: "Fried noodle with basil leaves, chilli, garlic, carrot & bamboo" },
-    { name: "Kao Pad Sapparos (Chicken / Beef / Pork)", price: 26.99, description: "Thai fried rice with pineapple, cashew nut and curry powder" },
-    { name: "Kao Pad Sapparos (Prawn / Lamb / Squid)", price: 28.99, description: "Thai fried rice with pineapple, cashew nut and curry powder" },
-    { name: "Pad Se - iw (Chicken / Beef / Pork)", price: 26.99, description: "Fried noodle with dark soy sauce, egg, carrot and green vegetables" },
-    { name: "Pad Se - iw (Prawn / Lamb / Squid)", price: 28.99, description: "Fried noodle with dark soy sauce, egg, carrot and green vegetables" },
-    { name: "Kao Pad Ka Praw (Chicken / Beef / Pork)", price: 26.99, description: "Rice cooked with chilli, garlic, carrot, bean, zucchini & bamboo" },
-    { name: "Kao Pad Ka Praw (Prawn / Lamb / Squid)", price: 28.99, description: "Rice cooked with chilli, garlic, carrot, bean, zucchini & bamboo" }
+    { name: "Kao Pad", price: 26.99, description: "Thai fried rice with egg, spring onion, tomato and vegetables", options: ["chicken", "beef", "pork"] },
+    { name: "Kao Pad", price: 28.99, description: "Thai fried rice with egg, spring onion, tomato and vegetables", options: ["prawn", "lamb", "squid"] },
+    { name: "Pad Thai", price: 26.99, description: "Rice noodle with egg, beansporut, onion, carrot, spring onion and crushed peanut", options: ["chicken", "beef", "pork"] },
+    { name: "Pad Thai", price: 28.99, description: "Rice noodle with egg, beansporut, onion, carrot, spring onion and crushed peanut", options: ["prawn", "lamb", "squid"] },
+    { name: "Drunken Noodle", price: 26.99, description: "Fried noodle with basil leaves, chilli, garlic, carrot & bamboo", options: ["chicken", "beef", "pork"] },
+    { name: "Drunken Noodle", price: 28.99, description: "Fried noodle with basil leaves, chilli, garlic, carrot & bamboo", options: ["prawn", "lamb", "squid"] },
+    { name: "Kao Pad Sapparos", price: 26.99, description: "Thai fried rice with pineapple, cashew nut and curry powder", options: ["chicken", "beef", "pork"] },
+    { name: "Kao Pad Sapparos", price: 28.99, description: "Thai fried rice with pineapple, cashew nut and curry powder", options: ["prawn", "lamb", "squid"] },
+    { name: "Pad Se - iw", price: 26.99, description: "Fried noodle with dark soy sauce, egg, carrot and green vegetables", options: ["chicken", "beef", "pork"] },
+    { name: "Pad Se - iw", price: 28.99, description: "Fried noodle with dark soy sauce, egg, carrot and green vegetables", options: ["prawn", "lamb", "squid"] },
+    { name: "Kao Pad Ka Praw", price: 26.99, description: "Rice cooked with chilli, garlic, carrot, bean, zucchini & bamboo", options: ["chicken", "beef", "pork"] },
+    { name: "Kao Pad Ka Praw", price: 28.99, description: "Rice cooked with chilli, garlic, carrot, bean, zucchini & bamboo", options: ["prawn", "lamb", "squid"] }
   ]},
   { title: "Desserts", color: "bg-pink-300", items: [
     { name: "Ice cream sundae (Choc / Vanilla)", price: 11.50 },
@@ -128,6 +128,7 @@ type CartItem = {
   name: string
   price: number
   quantity: number
+  option?: string
 }
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
@@ -150,15 +151,24 @@ export default function Component() {
     setPickupTimes(generatePickupTimes())
   }, [])
 
-  const addToCart = (item: { name: string; price: number }) => {
+  const addToCart = (item: { name: string; price: number; options?: string[] }, selectedOption?: string) => {
     setCart(currentCart => {
-      const existingItem = currentCart.find(cartItem => cartItem.name === item.name)
+      const existingItem = currentCart.find(cartItem => 
+        cartItem.name === item.name && cartItem.option === selectedOption
+      )
       if (existingItem) {
         return currentCart.map(cartItem =>
-          cartItem.name === item.name ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+          cartItem.name === item.name && cartItem.option === selectedOption
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
         )
       }
-      return [...currentCart, { id: Date.now(), ...item, quantity: 1 }]
+      return [...currentCart, { 
+        id: Date.now(), 
+        ...item, 
+        quantity: 1, 
+        option: selectedOption 
+      }]
     })
   }
 
@@ -166,16 +176,16 @@ export default function Component() {
     setCart(currentCart => currentCart.filter(item => item.id !== id))
   }
 
-  const updateQuantity = (itemName: string, quantity: number) => {
+  const updateQuantity = (id: number, quantity: number) => {
     setCart(currentCart =>
       currentCart.map(item =>
-        item.name === itemName ? { ...item, quantity: Math.max(0, quantity) } : item
+        item.id === id ? { ...item, quantity: Math.max(0, quantity) } : item
       ).filter(item => item.quantity > 0)
     )
   }
 
-  const getItemQuantityInCart = (itemName: string) => {
-    const item = cart.find(cartItem => cartItem.name === itemName)
+  const getItemQuantityInCart = (itemName: string, option?: string) => {
+    const item = cart.find(cartItem => cartItem.name === itemName && cartItem.option === option)
     return item ? item.quantity : 0
   }
 
@@ -226,7 +236,12 @@ export default function Component() {
 
     try {
       const orderData = {
-        items: cart,
+        items: cart.map(item => ({
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          option: item.option
+        })),
         name,
         mobile: formatPhoneNumber(mobile),
         email,
@@ -398,7 +413,8 @@ export default function Component() {
                   <TabsTrigger 
                     key={category.title} 
                     value={category.title} 
-                    className={`px-4 py-2 font-bold text-black transition-all duration-200 ease-in-out ${category.color}
+                    className={`px-4 py-2 font-bold text-black transition-all duration-200 
+ease-in-out ${category.color}
                       data-[state=active]:shadow-md data-[state=active]:translate-y-[-4px] 
                       data-[state=active]:border-b-4 data-[state=active]:border-black`}
                   >
@@ -421,32 +437,49 @@ export default function Component() {
                       <h3 className="font-bold">{item.name}</h3>
                       <p>${item.price.toFixed(2)}</p>
                       {item.description && <p className="text-sm text-gray-600">{item.description}</p>}
-                      <div className="flex items-center mt-2">
-                        {getItemQuantityInCart(item.name) > 0 ? (
-                          <div className="flex items-center">
+                      {item.options ? (
+                        <div className="mt-2">
+                          <Select onValueChange={(value) => addToCart(item, value)}>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select option" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {item.options.map((option) => (
+                                <SelectItem key={option} value={option}>
+                                  {option}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      ) : (
+                        <div className="flex items-center mt-2">
+                          {getItemQuantityInCart(item.name) > 0 ? (
+                            <div className="flex items-center">
+                              <Button 
+                                onClick={() => updateQuantity(cart.find(cartItem => cartItem.name === item.name)?.id || 0, getItemQuantityInCart(item.name) - 1)} 
+                                className="p-1 bg-gray-200 text-gray-700 hover:bg-gray-300"
+                              >
+                                <Minus className="h-4 w-4" />
+                              </Button>
+                              <span className="mx-2 font-bold">{getItemQuantityInCart(item.name)}</span>
+                              <Button 
+                                onClick={() => updateQuantity(cart.find(cartItem => cartItem.name === item.name)?.id || 0, getItemQuantityInCart(item.name) + 1)} 
+                                className="p-1 bg-gray-200 text-gray-700 hover:bg-gray-300"
+                              >
+                                <Plus className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          ) : (
                             <Button 
-                              onClick={() => updateQuantity(item.name, getItemQuantityInCart(item.name) - 1)} 
-                              className="p-1 bg-gray-200 text-gray-700 hover:bg-gray-300"
+                              onClick={() => addToCart(item)} 
+                              className="bg-purple-600 hover:bg-purple-700 text-white"
                             >
-                              <Minus className="h-4 w-4" />
+                              Add to Cart
                             </Button>
-                            <span className="mx-2 font-bold">{getItemQuantityInCart(item.name)}</span>
-                            <Button 
-                              onClick={() => updateQuantity(item.name, getItemQuantityInCart(item.name) + 1)} 
-                              className="p-1 bg-gray-200 text-gray-700 hover:bg-gray-300"
-                            >
-                              <Plus className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        ) : (
-                          <Button 
-                            onClick={() => addToCart(item)} 
-                            className="bg-purple-600 hover:bg-purple-700 text-white"
-                          >
-                            Add to Cart
-                          </Button>
-                        )}
-                      </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -461,14 +494,17 @@ export default function Component() {
               {cart.map(item => (
                 <div key={item.id} className="flex flex-col mb-4 border-b pb-2">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">{item.name}</span>
+                    <span className="font-medium">
+                      {item.name}
+                      {item.option && <span className="text-sm text-gray-600"> ({item.option})</span>}
+                    </span>
                     <span>${(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <div>
-                      <Button onClick={() => updateQuantity(item.name, item.quantity - 1)} className="px-2 py-1 mr-1">-</Button>
+                      <Button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-2 py-1 mr-1">-</Button>
                       <span className="mx-2">{item.quantity}</span>
-                      <Button onClick={() => updateQuantity(item.name, item.quantity + 1)} className="px-2 py-1 mr-1">+</Button>
+                      <Button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-2 py-1 mr-1">+</Button>
                     </div>
                     <Button onClick={() => removeFromCart(item.id)} className="px-2 py-1">Remove</Button>
                   </div>
