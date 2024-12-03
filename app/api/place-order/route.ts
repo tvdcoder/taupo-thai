@@ -115,8 +115,8 @@ export async function POST(req: Request) {
             create: orderData.items.map(item => ({
               name: item.name,
               price: item.price,
-              quantity: item.quantity
-              // Note: 'option' is not included here as it's not in the database schema
+              quantity: item.quantity,
+              option: item.option
             }))
           }
         }
