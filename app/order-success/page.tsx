@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import Image from 'next/image'
-import { Loader2, CheckCircle, Clock } from 'lucide-react'
 
 interface OrderDetails {
   id: number
@@ -51,11 +50,7 @@ export default function OrderSuccessPage() {
   }, [searchParams])
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    )
+    return <div className="text-center py-10">Loading order details...</div>
   }
 
   if (error || !orderDetails) {
@@ -96,35 +91,14 @@ export default function OrderSuccessPage() {
 
         <main className="flex-grow container mx-auto px-4 py-8 sm:py-16">
           <div className="bg-white bg-opacity-90 shadow-md rounded-lg p-6 max-w-2xl mx-auto">
-            <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
-              {orderDetails.paymentMethod === 'store' ? 'Order Sent to Restaurant' : 'Order Confirmed!'}
-            </h1>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Order Confirmed!</h1>
             <h2 className="text-xl sm:text-2xl font-semibold mb-4">Order #{orderDetails.id}</h2>
-            
-            {orderDetails.paymentMethod === 'store' ? (
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2 text-green-600">
-                  <CheckCircle className="h-5 w-5" />
-                  <p className="font-semibold">Your order has been successfully sent to the restaurant.</p>
-                </div>
-                <div className="flex items-center space-x-2 text-blue-600">
-                  <Clock className="h-5 w-5" />
-                  <p className="font-semibold">Please wait for SMS confirmation before coming to the store.</p>
-                </div>
-                <p>You will receive an SMS with the final pickup time once the restaurant accepts your order.</p>
-              </div>
-            ) : (
-              <p className="font-semibold text-green-600">Your order has been confirmed and paid. Thank you for your purchase!</p>
-            )}
-            
-            <div className="mt-6 space-y-2">
+            <div className="space-y-2">
               <p><strong>Name:</strong> {orderDetails.name}</p>
               <p><strong>Mobile:</strong> {orderDetails.mobile}</p>
               <p><strong>Order Type:</strong> {orderDetails.orderType}</p>
+              <p><strong>Pickup Time:</strong> {orderDetails.pickupTime}</p>
               <p><strong>Payment Method:</strong> {orderDetails.paymentMethod === 'store' ? 'Pay at Store' : 'Credit Card'}</p>
-              {orderDetails.paymentMethod !== 'store' && (
-                <p><strong>Pickup Time:</strong> {orderDetails.pickupTime}</p>
-              )}
             </div>
             
             <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2">Order Items:</h3>
