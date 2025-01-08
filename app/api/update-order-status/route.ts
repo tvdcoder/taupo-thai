@@ -48,17 +48,33 @@ export async function POST(req: Request) {
       }
     })
 
-    const customerSMSSuccess = await sendSMS(order.mobile, customerMessage)
-    const restaurantSMSSuccess = await sendSMS(RESTAURANT_PHONE, restaurantMessage)
+    let customerSMSError: Error | null = null
+    let restaurantSMSError: Error | null = null
 
-    if (!customerSMSSuccess || !restaurantSMSSuccess) {
-      console.warn(`Failed to send SMS for order ${order.id}`)
+    try {
+      await sendSMS(order.mobile, customerMessage)
+    } catch (error) {
+      customerSMSError = error instanceof Error ? error : new Error('Unknown error sending customer SMS')
+    }
+
+    try {
+      await sendSMS(RESTAURANT_PHONE, restaurantMessage)
+    } catch (error) {
+      restaurantSMSError = error instanceof Error ? error : new Error('Unknown error sending restaurant SMS')
+    }
+
+    if (customerSMSError || restaurantSMSError) {
+      console.warn(`Failed to send SMS for order ${order.id}:`, 
+        customerSMSError?.message || '', 
+        restaurantSMSError?.message || ''
+      )
     }
 
     return NextResponse.json({ 
       success: true, 
       message: `Order ${action}ed successfully`, 
-      order: updatedOrder 
+      order: updatedOrder,
+      redirectUrl: '/restaurant/pending-orders'
     })
 
   } catch (error) {
