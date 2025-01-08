@@ -103,14 +103,10 @@ export async function POST(req: Request) {
         }
       })
 
-      const customerMessage = orderData.paymentMethod === 'store'
-        ? `Your order #${order.id} has been received. We'll confirm it shortly. Please wait for our confirmation before coming to the store. Thank you!`
-        : `Your order #${order.id} has been confirmed and paid. Thank you for your purchase!`
-
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://your-app-url.com'
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ''
       const confirmUrl = `${baseUrl}/confirm-order/${order.id}`
       const restaurantMessage = orderData.paymentMethod === 'store'
-        ? `New order #${order.id} requires confirmation. To view and confirm, visit: ${confirmUrl.replace('https://', '')}`
+        ? `New order #${order.id} requires confirmation. Go to: taupothai.co.nz then /confirm-order/${order.id}`
         : `New order #${order.id}:\n` +
           `Name: ${orderData.name}\n` +
           `Mobile: ${orderData.mobile}\n` +
