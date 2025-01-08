@@ -103,12 +103,8 @@ export async function POST(req: Request) {
         }
       })
 
-      const customerMessage = orderData.paymentMethod === 'store'
-        ? `Your order #${order.id} has been received. We'll confirm it shortly. Please wait for our confirmation before coming to the store. Thank you!`
-        : `Your order #${order.id} has been confirmed and paid. Thank you for your purchase!`
-
       const restaurantMessage = orderData.paymentMethod === 'store'
-        ? `New order #${order.id} requires confirmation. Please check your order management system to confirm.`
+        ? `New order #${order.id} requires confirmation. Click here to view and confirm: ${process.env.NEXT_PUBLIC_BASE_URL}/confirm-order/${order.id}`
         : `New order #${order.id}:\n` +
           `Name: ${orderData.name}\n` +
           `Mobile: ${orderData.mobile}\n` +
