@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    serverActions: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -21,6 +24,9 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+  },
+  env: {
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
   },
 }
 

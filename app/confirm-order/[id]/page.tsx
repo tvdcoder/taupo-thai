@@ -1,24 +1,35 @@
 import { notFound } from 'next/navigation'
 import { prisma } from '../../../lib/db'
 import { Button } from '@/components/ui/button'
+import { revalidatePath } from 'next/cache'
+import { sendSMS } from '../../../lib/sendSMS'
 
-export default async function ConfirmOrderPage({ params }: { params: { id: string } }) {
-  const order = await prisma.order.findUnique({
-    where: { id: parseInt(params.id) },
+async function getOrder(id: string) {
+  return await prisma.order.findUnique({
+    where: { id: parseInt(id) },
     include: { items: true },
   })
+}
+
+async function confirmOrder(orderId: number) {
+  'use server'
+  
+  const order = await prisma.order.update({
+    where: { id: orderId },
+    data: { status: 'confirmed' },
+  })
+
+  const customerMessage = `Your order #${order.id} has been confirmed. You can pick it up at ${order.pickupTime}. Thank you!`
+  await sendSMS(order.mobile, customerMessage)
+
+  revalidatePath(`/confirm-order/${orderId}`)
+}
+
+export default async function ConfirmOrderPage({ params }: { params: { id: string } }) {
+  const order = await getOrder(params.id)
 
   if (!order || order.status !== 'pending_confirmation') {
     notFound()
-  }
-
-  async function confirmOrder() {
-    'use server'
-    await prisma.order.update({
-      where: { id: order.id },
-      data: { status: 'confirmed' },
-    })
-    // TODO: Send confirmation SMS to customer
   }
 
   return (
@@ -39,7 +50,7 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
           </li>
         ))}
       </ul>
-      <form action={confirmOrder}>
+      <form action={confirmOrder.bind(null, order.id)}>
         <Button type="submit">Confirm Order</Button>
       </form>
     </div>
