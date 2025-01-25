@@ -102,8 +102,7 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
           {preparationTimes.map((time, index) => (
             <form 
               key={time} 
-              onSubmit={async (e) => {
-                e.preventDefault();
+              action={async () => {
                 'use server'
                 await updateOrder(order.id, 'confirmed', time)
               }}
@@ -121,8 +120,7 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <form onSubmit={async (e) => {
-          e.preventDefault();
+        <form action={async () => {
           'use server'
           await updateOrder(order.id, 'confirmed', '15min')
         }}>
@@ -131,8 +129,7 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
           </Button>
         </form>
         
-        <form onSubmit={async (e) => {
-          e.preventDefault();
+        <form action={async () => {
           'use server'
           await updateOrder(order.id, 'rejected', '')
         }}>
