@@ -73,3 +73,16 @@ export function formatNZPhoneNumber(phone: string): string {
 
   return formattedNumber;
 }
+
+export function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat('en-NZ', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+    timeZone: 'Pacific/Auckland'
+  }).format(date);
+}
+

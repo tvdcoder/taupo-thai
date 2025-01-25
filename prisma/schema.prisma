@@ -9,17 +9,18 @@ datasource db {
 }
 
 model Order {
-  id            Int      @id @default(autoincrement())
-  name          String
-  mobile        String
-  email         String?
-  orderType     String
-  paymentMethod String
-  pickupTime    String
-  subtotal      Float
-  status        String
-  createdAt     DateTime @default(now())
-  items         OrderItem[]
+  id              Int         @id @default(autoincrement())
+  name            String
+  mobile          String
+  email           String?
+  orderType       String
+  paymentMethod   String
+  pickupTime      String
+  preparationTime String?     // New field for storing selected preparation time
+  subtotal        Float
+  status          String      @default("pending_confirmation") // Updated default status
+  createdAt       DateTime    @default(now())
+  items           OrderItem[]
 }
 
 model OrderItem {
