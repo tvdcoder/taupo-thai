@@ -55,6 +55,10 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
     const status = formData.get('status') as 'confirmed' | 'rejected'
     const preparationTime = formData.get('preparationTime') as string
 
+    if (!order) {
+      return { error: 'Order not found' }
+    }
+
     if (status === 'confirmed' && !preparationTime) {
       return { error: 'Please select a preparation time before accepting the order.' }
     }
