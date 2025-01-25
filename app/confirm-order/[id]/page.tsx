@@ -52,17 +52,17 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
   async function handleUpdateOrder(formData: FormData) {
     'use server'
     const status = formData.get('status') as 'confirmed' | 'rejected'
-    const preparationTime = formData.get('preparationTime') as string
+    let preparationTime = formData.get('preparationTime') as string
 
     if (!order) {
       throw new Error('Order not found')
     }
 
     if (status === 'confirmed' && !preparationTime) {
-      throw new Error('Please select a preparation time before accepting the order.')
+      preparationTime = 'Req. Time'
     }
 
-    await updateOrder(order.id, status, preparationTime || 'Req. Time')
+    await updateOrder(order.id, status, preparationTime)
     redirect('/response-recorded')
   }
 
