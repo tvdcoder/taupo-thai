@@ -4,7 +4,7 @@ import { prisma } from '../../../lib/db'
 import { Button } from "@/components/ui/button"
 import { revalidatePath } from 'next/cache'
 import { sendSMS } from '../../../lib/sendSMS'
-import { formatDate } from '@/lib/utils'
+import { formatDate } from '../../../lib/utils'
 
 async function getOrder(id: string) {
   return await prisma.order.findUnique({
