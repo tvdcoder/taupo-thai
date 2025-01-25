@@ -312,10 +312,10 @@ export default function Component() {
     const now = new Date()
     const nzTime = new Date(now.toLocaleString("en-US", {timeZone: "Pacific/Auckland"}))
     
-    // Sunday check removed for testing
-    // if (nzTime.getDay() === 0) {
-    //   return ["Closed on Sundays"]
-    // }
+    // Check if it's Sunday (0 is Sunday in JavaScript's getDay())
+    if (nzTime.getDay() === 0) {
+      return ["Closed on Sundays"]
+    }
 
     const currentHour = nzTime.getHours()
     const currentMinute = nzTime.getMinutes()
@@ -575,12 +575,14 @@ ease-in-out ${category.color}
             )}
             <Button 
               type="submit" 
-              disabled={!isFormValid() || isLoading} 
+              disabled={!isFormValid() || isLoading || pickupTimes[0] === "Closed on Sundays"} 
               className="w-full bg-purple-600 hover:bg-purple-700 text-white"
             >
               {isLoading 
                 ? 'Processing...' 
-                : (paymentMethod === 'credit-card' ? 'Proceed to Payment' : 'Place Order')
+                : pickupTimes[0] === "Closed on Sundays"
+                  ? 'Closed on Sundays'
+                  : (paymentMethod === 'credit-card' ? 'Proceed to Payment' : 'Place Order')
               }
             </Button>
           </form>
