@@ -62,7 +62,7 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
       throw new Error('Please select a preparation time before accepting the order.')
     }
 
-    await updateOrder(order.id, status, preparationTime)
+    await updateOrder(order.id, status, preparationTime || 'Req. Time')
     redirect('/response-recorded')
   }
 
@@ -125,7 +125,9 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
                   name="preparationTime"
                   value={time}
                   variant={time === 'Req. Time' ? 'default' : 'outline'}
-                  className={`w-full ${time === 'Req. Time' ? 'bg-[#4CAF50] text-white' : 'bg-white text-black'} hover:bg-[#45a049] hover:text-white border border-gray-200 rounded`}
+                  className={`w-full ${
+                    time === 'Req. Time' ? 'bg-[#4CAF50] text-white' : 'bg-white text-black'
+                  } hover:bg-[#45a049] hover:text-white border border-gray-200 rounded`}
                 >
                   {time}
                 </Button>
