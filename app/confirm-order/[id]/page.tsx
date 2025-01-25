@@ -34,10 +34,9 @@ async function updateOrder(orderId: number, status: 'confirmed' | 'rejected', pr
     }
 
     revalidatePath(`/confirm-order/${orderId}`)
-    return { success: true }
   } catch (error) {
     console.error('Error updating order:', error)
-    return { success: false, error: 'Failed to update order' }
+    throw new Error('Failed to update order')
   }
 }
 
@@ -56,18 +55,15 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
     const preparationTime = formData.get('preparationTime') as string
 
     if (!order) {
-      return { error: 'Order not found' }
+      throw new Error('Order not found')
     }
 
     if (status === 'confirmed' && !preparationTime) {
-      return { error: 'Please select a preparation time before accepting the order.' }
+      throw new Error('Please select a preparation time before accepting the order.')
     }
 
-    const result = await updateOrder(order.id, status, preparationTime)
-    if (result.success) {
-      redirect('/response-recorded')
-    }
-    return result
+    await updateOrder(order.id, status, preparationTime)
+    redirect('/response-recorded')
   }
 
   return (
