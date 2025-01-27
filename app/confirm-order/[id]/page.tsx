@@ -73,6 +73,10 @@ async function handleUpdateOrder(formData: FormData) {
     throw new Error('Order ID not found')
   }
 
+  if (!status) {
+    throw new Error('Status is required')
+  }
+
   const result = await updateOrder(orderId, status, preparationTime)
   if (result.success) {
     redirect('/response-recorded')
@@ -80,6 +84,28 @@ async function handleUpdateOrder(formData: FormData) {
     // Handle the error case, perhaps by showing an error message
     console.error(result.error)
     // You might want to add error handling UI here
+  }
+}
+
+async function handleSetPreparationTime(formData: FormData) {
+  'use server'
+  
+  const orderId = parseInt(formData.get('orderId') as string)
+  const preparationTime = formData.get('preparationTime') as string
+
+  if (!orderId) {
+    throw new Error('Order ID not found')
+  }
+
+  try {
+    await prisma.order.update({
+      where: { id: orderId },
+      data: { preparationTime: preparationTime },
+    })
+
+    revalidatePath(`/confirm-order/${orderId}`)
+  } catch (error) {
+    console.error('Error setting preparation time:', error)
   }
 }
 
@@ -138,7 +164,7 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
           </div>
         </div>
 
-        <form action={handleUpdateOrder}>
+        <form action={handleSetPreparationTime}>
           <input type="hidden" name="orderId" value={order.id} />
           <div className="px-6 pb-6">
             <p className="text-center mb-1">Requested for {order.pickupTime}</p>
@@ -151,14 +177,20 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
                   type="submit"
                   name="preparationTime"
                   value={time}
-                  variant={time === 'Req. Time' ? 'default' : 'outline'}
-                  className={`w-full ${time === 'Req. Time' ? 'bg-[#4CAF50] text-white' : 'bg-white text-black'} hover:bg-[#45a049] hover:text-white border border-gray-200 rounded`}
+                  variant={time === order.preparationTime ? 'default' : 'outline'}
+                  className={`w-full ${time === order.preparationTime ? 'bg-[#4CAF50] text-white' : 'bg-white text-black'} hover:bg-[#45a049] hover:text-white border border-gray-200 rounded`}
                 >
                   {time}
                 </Button>
               ))}
             </div>
+          </div>
+        </form>
 
+        <form action={handleUpdateOrder}>
+          <input type="hidden" name="orderId" value={order.id} />
+          <input type="hidden" name="preparationTime" value={order.preparationTime || 'Req. Time'} />
+          <div className="px-6 pb-6">
             <div className="grid grid-cols-2 gap-4">
               <Button 
                 type="submit"
