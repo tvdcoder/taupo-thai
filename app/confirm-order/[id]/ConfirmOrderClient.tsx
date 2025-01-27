@@ -33,6 +33,7 @@ export default function ConfirmOrderClient({ order }: { order: Order }) {
   const [animatingButton, setAnimatingButton] = useState<string | null>(null)
   const [currentOrder, setCurrentOrder] = useState(order)
   const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false) // Added loading state
   const preparationTimes = ['Req. Time', '15min', '30min', '45min', '60min', '75min', '90min']
 
   useEffect(() => {
@@ -43,7 +44,9 @@ export default function ConfirmOrderClient({ order }: { order: Order }) {
   }, [animatingButton])
 
   const handleButtonClick = async (action: string, value: string) => {
+    setIsLoading(true) // Set loading state to true
     setAnimatingButton(action + value)
+    setError(null) // Clear any previous errors
     try {
       if (action === 'preparationTime') {
         const response = await fetch('/api/set-preparation-time', {
@@ -67,19 +70,21 @@ export default function ConfirmOrderClient({ order }: { order: Order }) {
             preparationTime: currentOrder.preparationTime || 'Req. Time' 
           }),
         })
-        if (response.ok) {
-          const updatedOrder = await response.json()
-          setCurrentOrder(updatedOrder)
-          // Redirect or show confirmation message
-        } else {
-          throw new Error('Failed to update order status')
+        if (!response.ok) {
+          const errorData = await response.json()
+          throw new Error(errorData.error || 'Failed to update order status')
         }
+        const updatedOrder = await response.json()
+        setCurrentOrder(updatedOrder)
+        // Redirect or show confirmation message
+        alert(`Order ${value === 'confirmed' ? 'accepted' : 'rejected'} successfully`)
       }
     } catch (error) {
       console.error('Error updating order:', error)
       setError(error instanceof Error ? error.message : 'An unexpected error occurred')
     } finally {
       setAnimatingButton(null)
+      setIsLoading(false) // Set loading state to false
     }
   }
 
@@ -156,15 +161,17 @@ export default function ConfirmOrderClient({ order }: { order: Order }) {
             <Button 
               onClick={() => handleButtonClick('status', 'confirmed')}
               className={`w-full bg-[#4CAF50] hover:bg-[#45a049] text-white font-bold py-3 text-lg rounded ${animatingButton === 'statusconfirmed' ? 'scale-95' : 'scale-100'} transition-transform duration-300`}
+              disabled={isLoading} // Added disabled prop
             >
-              ACCEPT
+              {isLoading ? 'Processing...' : 'ACCEPT'} {/* Conditional rendering for loading state */}
             </Button>
             
             <Button 
               onClick={() => handleButtonClick('status', 'rejected')}
               className={`w-full bg-[#f44336] hover:bg-[#da190b] text-white font-bold py-3 text-lg rounded ${animatingButton === 'statusrejected' ? 'scale-95' : 'scale-100'} transition-transform duration-300`}
+              disabled={isLoading} // Added disabled prop
             >
-              REJECT
+              {isLoading ? 'Processing...' : 'REJECT'} {/* Conditional rendering for loading state */}
             </Button>
           </div>
         </div>
