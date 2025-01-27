@@ -81,7 +81,7 @@ export default function ConfirmOrderClient({ order }: { order: Order }) {
             className="mb-4"
           />
           <h1 className="text-3xl font-bold text-center mb-1">ORDER #{currentOrder.id}</h1>
-          <p className="text-gray-600 text-sm mb-1">{formatDate(currentOrder.createdAt)}</p>
+          <p className="text-gray-600 text-sm mb-1">{formatDate(new Date(currentOrder.createdAt))}</p>
           <p className="font-medium">Taupo Thai Restaurant & Bar</p>
         </div>
 
