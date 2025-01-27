@@ -13,6 +13,10 @@ async function getOrder(id: string) {
       ...order,
       createdAt: order.createdAt.toISOString(),
       updatedAt: order.updatedAt.toISOString(),
+      items: order.items.map(item => ({
+        ...item,
+        option: item.option || undefined
+      }))
     }
   }
 

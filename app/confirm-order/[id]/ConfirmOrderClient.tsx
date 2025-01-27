@@ -11,6 +11,7 @@ interface OrderItem {
   price: number
   quantity: number
   option?: string
+  orderId: number
 }
 
 interface Order {
