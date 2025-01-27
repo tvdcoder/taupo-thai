@@ -3,10 +3,20 @@ import { prisma } from '../../../lib/prisma'
 import ConfirmOrderClient from './ConfirmOrderClient'
 
 async function getOrder(id: string) {
-  return await prisma.order.findUnique({
+  const order = await prisma.order.findUnique({
     where: { id: parseInt(id) },
     include: { items: true },
   })
+
+  if (order) {
+    return {
+      ...order,
+      createdAt: order.createdAt.toISOString(),
+      updatedAt: order.updatedAt.toISOString(),
+    }
+  }
+
+  return null
 }
 
 export default async function ConfirmOrderPage({ params }: { params: { id: string } }) {

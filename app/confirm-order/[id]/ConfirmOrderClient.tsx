@@ -16,6 +16,7 @@ interface OrderItem {
 interface Order {
   id: number
   createdAt: string
+  updatedAt: string
   items: OrderItem[]
   subtotal: number
   orderType: string
@@ -23,7 +24,7 @@ interface Order {
   mobile: string
   name: string
   pickupTime: string
-  preparationTime?: string
+  preparationTime: string | null
   status: string
 }
 
