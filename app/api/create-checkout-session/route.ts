@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server'
 import stripe from '../../../stripe-config'
 import { prisma } from '../../../lib/prisma'
 
-
-
 const isValidNZPhoneNumber = (phone: string) => {
   // Updated regex to accept numbers with or without the "0" or "+64" prefix
   return /^(\+?64|0)?2\d{7,9}$/.test(phone.replace(/\s/g, ''))
@@ -58,7 +56,7 @@ export async function POST(req: Request) {
         quantity: item.quantity,
       })),
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/confirm-order?session_id={CHECKOUT_SESSION_ID}&order_id=${order.id}`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/order-success?session_id={CHECKOUT_SESSION_ID}&order_id=${order.id}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/order`,
       metadata: {
         orderId: order.id.toString(),

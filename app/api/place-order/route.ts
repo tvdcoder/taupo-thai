@@ -173,8 +173,6 @@ export async function POST(req: Request) {
   }
 }
 
-
-
 // import { NextResponse } from 'next/server'
 // import { prisma } from '../../../lib/db'
 // import { sendSMS } from '../../../lib/sendSMS'

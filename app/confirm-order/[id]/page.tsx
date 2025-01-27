@@ -13,30 +13,54 @@ async function getOrder(id: string) {
   })
 }
 
+function calculateNewPickupTime(originalTime: string, additionalTime: string) {
+  if (additionalTime === 'Req. Time') return originalTime
+
+  const [hours, minutes] = originalTime.split(':').map(Number)
+  const additionalMinutes = parseInt(additionalTime)
+
+  const date = new Date()
+  date.setHours(hours, minutes + additionalMinutes)
+
+  return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+}
+
 async function updateOrder(orderId: number, status: 'confirmed' | 'rejected', preparationTime: string) {
   'use server'
   
   try {
-    const order = await prisma.order.update({
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
+    })
+
+    if (!order) {
+      throw new Error('Order not found')
+    }
+
+    const newPickupTime = calculateNewPickupTime(order.pickupTime, preparationTime)
+
+    const updatedOrder = await prisma.order.update({
       where: { id: orderId },
       data: { 
         status: status,
-        preparationTime: preparationTime
+        preparationTime: preparationTime,
+        pickupTime: newPickupTime
       },
     })
 
     if (status === 'confirmed') {
-      const customerMessage = `Your order #${order.id} has been confirmed and will be ready for pickup at ${order.pickupTime}. Thank you for choosing Taupo Thai!`
-      await sendSMS(order.mobile, customerMessage)
+      const customerMessage = `Your order #${updatedOrder.id} has been confirmed and will be ready for pickup at ${newPickupTime}. Thank you for choosing Taupo Thai!`
+      await sendSMS(updatedOrder.mobile, customerMessage)
     } else {
-      const customerMessage = `We're sorry, but your order #${order.id} cannot be accepted at this time. Please try again later or call us at 073765438.`
-      await sendSMS(order.mobile, customerMessage)
+      const customerMessage = `We're sorry, but your order #${updatedOrder.id} cannot be accepted at this time. Please try again later or call us at 073765438.`
+      await sendSMS(updatedOrder.mobile, customerMessage)
     }
 
     revalidatePath(`/confirm-order/${orderId}`)
+    return { success: true, newPickupTime }
   } catch (error) {
     console.error('Error updating order:', error)
-    throw new Error('Failed to update order')
+    return { success: false, error: 'Failed to update order' }
   }
 }
 
@@ -62,8 +86,14 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
       preparationTime = 'Req. Time'
     }
 
-    await updateOrder(order.id, status, preparationTime)
-    redirect('/response-recorded')
+    const result = await updateOrder(order.id, status, preparationTime)
+    if (result.success) {
+      redirect('/response-recorded')
+    } else {
+      // Handle the error case, perhaps by showing an error message
+      console.error(result.error)
+      // You might want to add error handling UI here
+    }
   }
 
   return (
@@ -126,6 +156,10 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
                   value={time}
                   variant={time === 'Req. Time' ? 'default' : 'outline'}
                   className={`w-full ${time === 'Req. Time' ? 'bg-[#4CAF50] text-white' : 'bg-white text-black'} hover:bg-[#45a049] hover:text-white border border-gray-200 rounded`}
+                  formAction={async (formData) => {
+                    formData.set('status', 'confirmed')
+                    await handleUpdateOrder(formData)
+                  }}
                 >
                   {time}
                 </Button>

@@ -15,6 +15,7 @@ interface OrderDetails {
   items: Array<{ name: string; quantity: number; price: number }>
   subtotal: number
   paymentMethod: string
+  status: string
 }
 
 export default function OrderSuccessPage() {
@@ -91,30 +92,59 @@ export default function OrderSuccessPage() {
 
         <main className="flex-grow container mx-auto px-4 py-8 sm:py-16">
           <div className="bg-white bg-opacity-90 shadow-md rounded-lg p-6 max-w-2xl mx-auto">
-            <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Order Confirmed!</h1>
-            <h2 className="text-xl sm:text-2xl font-semibold mb-4">Order #{orderDetails.id}</h2>
-            <div className="space-y-2">
-              <p><strong>Name:</strong> {orderDetails.name}</p>
-              <p><strong>Mobile:</strong> {orderDetails.mobile}</p>
-              <p><strong>Order Type:</strong> {orderDetails.orderType}</p>
-              <p><strong>Pickup Time:</strong> {orderDetails.pickupTime}</p>
-              <p><strong>Payment Method:</strong> {orderDetails.paymentMethod === 'store' ? 'Pay at Store' : 'Credit Card'}</p>
-            </div>
-            
-            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2">Order Items:</h3>
-            <ul className="space-y-2">
-              {orderDetails.items.map((item, index) => (
-                <li key={index} className="flex justify-between">
-                  <span>{item.name} x{item.quantity}</span>
-                  <span>${(item.price * item.quantity).toFixed(2)}</span>
-                </li>
-              ))}
-            </ul>
-            
-            <p className="mt-4 text-xl font-bold">Total: ${orderDetails.subtotal.toFixed(2)}</p>
-            
-            {orderDetails.paymentMethod === 'store' && (
-              <p className="mt-4 text-red-500 font-semibold">Please remember to pay ${orderDetails.subtotal.toFixed(2)} at the store during pickup.</p>
+            {orderDetails.paymentMethod === 'store' ? (
+              <>
+                <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Order Sent Successfully!</h1>
+                <p className="text-lg text-center mb-6">Your order has been successfully sent to the restaurant. Please wait for our confirmation.</p>
+                <h2 className="text-xl sm:text-2xl font-semibold mb-4">Order #{orderDetails.id}</h2>
+                <div className="space-y-2">
+                  <p><strong>Name:</strong> {orderDetails.name}</p>
+                  <p><strong>Mobile:</strong> {orderDetails.mobile}</p>
+                  <p><strong>Order Type:</strong> {orderDetails.orderType}</p>
+                  <p><strong>Requested Pickup Time:</strong> {orderDetails.pickupTime}</p>
+                  <p><strong>Payment Method:</strong> Pay at Store</p>
+                  <p><strong>Order Status:</strong> {orderDetails.status}</p>
+                </div>
+                
+                <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2">Order Items:</h3>
+                <ul className="space-y-2">
+                  {orderDetails.items.map((item, index) => (
+                    <li key={index} className="flex justify-between">
+                      <span>{item.name} x{item.quantity}</span>
+                      <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    </li>
+                  ))}
+                </ul>
+                
+                <p className="mt-4 text-xl font-bold">Total: ${orderDetails.subtotal.toFixed(2)}</p>
+                <p className="mt-4 text-red-500 font-semibold">Please remember to pay ${orderDetails.subtotal.toFixed(2)} at the store during pickup.</p>
+                <p className="mt-4 text-blue-600">We will contact you shortly to confirm your order and provide the final pickup time.</p>
+              </>
+            ) : (
+              <>
+                <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Order Confirmed!</h1>
+                <h2 className="text-xl sm:text-2xl font-semibold mb-4">Order #{orderDetails.id}</h2>
+                <div className="space-y-2">
+                  <p><strong>Name:</strong> {orderDetails.name}</p>
+                  <p><strong>Mobile:</strong> {orderDetails.mobile}</p>
+                  <p><strong>Order Type:</strong> {orderDetails.orderType}</p>
+                  <p><strong>Pickup Time:</strong> {orderDetails.pickupTime}</p>
+                  <p><strong>Payment Method:</strong> Credit Card</p>
+                </div>
+                
+                <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2">Order Items:</h3>
+                <ul className="space-y-2">
+                  {orderDetails.items.map((item, index) => (
+                    <li key={index} className="flex justify-between">
+                      <span>{item.name} x{item.quantity}</span>
+                      <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    </li>
+                  ))}
+                </ul>
+                
+                <p className="mt-4 text-xl font-bold">Total: ${orderDetails.subtotal.toFixed(2)}</p>
+                <p className="mt-4 text-green-600 font-semibold">Your payment has been processed successfully.</p>
+              </>
             )}
             
             <div className="mt-8 text-center">
