@@ -74,10 +74,7 @@ export default function ConfirmOrderClient({ order }: { order: Order }) {
           const errorData = await response.json()
           throw new Error(errorData.error || 'Failed to update order status')
         }
-        const updatedOrder = await response.json()
-        setCurrentOrder(updatedOrder)
-        // Redirect or show confirmation message
-        alert(`Order ${value === 'confirmed' ? 'accepted' : 'rejected'} successfully`)
+        window.location.href = '/response-recorded'
       }
     } catch (error) {
       console.error('Error updating order:', error)
