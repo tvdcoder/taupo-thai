@@ -32,6 +32,7 @@ interface Order {
 export default function ConfirmOrderClient({ order }: { order: Order }) {
   const [animatingButton, setAnimatingButton] = useState<string | null>(null)
   const [currentOrder, setCurrentOrder] = useState(order)
+  const [error, setError] = useState<string | null>(null)
   const preparationTimes = ['Req. Time', '15min', '30min', '45min', '60min', '75min', '90min']
 
   useEffect(() => {
@@ -43,31 +44,42 @@ export default function ConfirmOrderClient({ order }: { order: Order }) {
 
   const handleButtonClick = async (action: string, value: string) => {
     setAnimatingButton(action + value)
-    if (action === 'preparationTime') {
-      const response = await fetch('/api/set-preparation-time', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId: order.id, preparationTime: value }),
-      })
-      if (response.ok) {
-        const updatedOrder = await response.json()
-        setCurrentOrder(updatedOrder)
+    try {
+      if (action === 'preparationTime') {
+        const response = await fetch('/api/set-preparation-time', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId: currentOrder.id, preparationTime: value }),
+        })
+        if (response.ok) {
+          const updatedOrder = await response.json()
+          setCurrentOrder(updatedOrder)
+        } else {
+          throw new Error('Failed to update preparation time')
+        }
+      } else if (action === 'status') {
+        const response = await fetch('/api/update-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            orderId: currentOrder.id, 
+            status: value, 
+            preparationTime: currentOrder.preparationTime || 'Req. Time' 
+          }),
+        })
+        if (response.ok) {
+          const updatedOrder = await response.json()
+          setCurrentOrder(updatedOrder)
+          // Redirect or show confirmation message
+        } else {
+          throw new Error('Failed to update order status')
+        }
       }
-    } else if (action === 'status') {
-      const response = await fetch('/api/update-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          orderId: order.id, 
-          status: value, 
-          preparationTime: currentOrder.preparationTime || 'Req. Time' 
-        }),
-      })
-      if (response.ok) {
-        const updatedOrder = await response.json()
-        setCurrentOrder(updatedOrder)
-        // Redirect or show confirmation message
-      }
+    } catch (error) {
+      console.error('Error updating order:', error)
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred')
+    } finally {
+      setAnimatingButton(null)
     }
   }
 
@@ -116,6 +128,12 @@ export default function ConfirmOrderClient({ order }: { order: Order }) {
             <p>NAME: {currentOrder.name}</p>
           </div>
         </div>
+
+        {error && (
+          <div className="px-6 py-4 bg-red-100 border border-red-400 text-red-700 mb-4">
+            <p>{error}</p>
+          </div>
+        )}
 
         <div className="px-6 pb-6">
           <p className="text-center mb-1">Requested for {currentOrder.pickupTime}</p>
