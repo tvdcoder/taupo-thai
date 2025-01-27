@@ -26,8 +26,6 @@ function calculateNewPickupTime(originalTime: string, additionalTime: string) {
 }
 
 async function updateOrder(orderId: number, status: 'confirmed' | 'rejected', preparationTime: string) {
-  'use server'
-  
   try {
     const order = await prisma.order.findUnique({
       where: { id: orderId },
@@ -64,6 +62,27 @@ async function updateOrder(orderId: number, status: 'confirmed' | 'rejected', pr
   }
 }
 
+async function handleUpdateOrder(formData: FormData) {
+  'use server'
+  
+  const orderId = parseInt(formData.get('orderId') as string)
+  const status = formData.get('status') as 'confirmed' | 'rejected'
+  const preparationTime = formData.get('preparationTime') as string
+
+  if (!orderId) {
+    throw new Error('Order ID not found')
+  }
+
+  const result = await updateOrder(orderId, status, preparationTime)
+  if (result.success) {
+    redirect('/response-recorded')
+  } else {
+    // Handle the error case, perhaps by showing an error message
+    console.error(result.error)
+    // You might want to add error handling UI here
+  }
+}
+
 export default async function ConfirmOrderPage({ params }: { params: { id: string } }) {
   const order = await getOrder(params.id)
 
@@ -72,29 +91,6 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
   }
 
   const preparationTimes = ['Req. Time', '15min', '30min', '45min', '60min', '75min', '90min']
-
-  async function handleUpdateOrder(formData: FormData) {
-    'use server'
-    const status = formData.get('status') as 'confirmed' | 'rejected'
-    let preparationTime = formData.get('preparationTime') as string
-
-    if (!order) {
-      throw new Error('Order not found')
-    }
-
-    if (status === 'confirmed' && !preparationTime) {
-      preparationTime = 'Req. Time'
-    }
-
-    const result = await updateOrder(order.id, status, preparationTime)
-    if (result.success) {
-      redirect('/response-recorded')
-    } else {
-      // Handle the error case, perhaps by showing an error message
-      console.error(result.error)
-      // You might want to add error handling UI here
-    }
-  }
 
   return (
     <div className="min-h-screen bg-[#f5f5f5]">
@@ -143,6 +139,7 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
         </div>
 
         <form action={handleUpdateOrder}>
+          <input type="hidden" name="orderId" value={order.id} />
           <div className="px-6 pb-6">
             <p className="text-center mb-1">Requested for {order.pickupTime}</p>
             <p className="text-center mb-4">Select Time</p>
@@ -156,10 +153,6 @@ export default async function ConfirmOrderPage({ params }: { params: { id: strin
                   value={time}
                   variant={time === 'Req. Time' ? 'default' : 'outline'}
                   className={`w-full ${time === 'Req. Time' ? 'bg-[#4CAF50] text-white' : 'bg-white text-black'} hover:bg-[#45a049] hover:text-white border border-gray-200 rounded`}
-                  formAction={async (formData) => {
-                    formData.set('status', 'confirmed')
-                    await handleUpdateOrder(formData)
-                  }}
                 >
                   {time}
                 </Button>
